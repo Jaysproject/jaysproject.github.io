@@ -291,13 +291,13 @@ form.msg textarea{min-height:118px;resize:vertical}
 #tram-dest{font-family:'Anton';font-size:30px;letter-spacing:3px;fill:#e4b23e}
 #tram-route{font-family:'Anton';font-size:40px;fill:#f4e8c9}
 /* "now arriving" caption */
-.arriving{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;opacity:0}
+.arriving{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;opacity:0;z-index:3;text-shadow:0 4px 24px rgba(0,0,0,.85)}
 #tram-stage.running .arriving{animation:arrive 2.15s ease forwards}
 @keyframes arrive{0%,52%{opacity:0}66%{opacity:1}88%{opacity:1}100%{opacity:0}}
 .arriving .kicker{font-family:'Archivo';font-weight:900;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--tram-gold);margin-bottom:8px}
 .arriving .where{font-family:'Anton';font-size:clamp(30px,7vw,64px);text-transform:uppercase;color:#f6eccf;line-height:1}
 /* ding */
-.ding{position:absolute;left:50%;top:26%;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:clamp(20px,4vw,34px);color:var(--tram-gold);opacity:0}
+.ding{position:absolute;left:50%;top:26%;z-index:4;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:clamp(20px,4vw,34px);color:var(--tram-gold);opacity:0}
 #tram-stage.running .ding{animation:dingPop 2.15s ease forwards}
 @keyframes dingPop{0%,40%{opacity:0;transform:translateX(-50%) scale(.6)}50%{opacity:1;transform:translateX(-50%) scale(1.12)}62%{opacity:0;transform:translateX(-50%) scale(1.3)}100%{opacity:0}}
 
@@ -314,6 +314,48 @@ footer b{color:var(--accent)}
   html{scroll-behavior:auto}
 }
 [hidden]{display:none!important}
+
+/* ---------- EXPERIENCE: the coffee run ---------- */
+.coffee-intro{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:20px 22px;margin-bottom:26px}
+.coffee-intro p{color:var(--ink-soft);font-size:15.2px;flex:1;min-width:260px;margin:0}
+.coffee-intro .beans{display:flex;gap:10px;flex:none}
+.exp-run{display:flex;flex-direction:column;gap:14px}
+.exp-item{display:grid;grid-template-columns:96px 1fr;gap:18px;align-items:start;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:18px 20px;transition:.25s;position:relative}
+.exp-item:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow)}
+.exp-item .cupwrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.exp-item .order{font-family:'Archivo';font-weight:900;font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);text-align:center;line-height:1.3}
+.exp-item .when{font-family:'Archivo';font-weight:800;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+.exp-item h3{font-size:16.5px;font-weight:700;margin:3px 0 6px}
+.exp-item p{color:var(--ink-soft);font-size:14.3px;max-width:68ch;margin:0}
+@media(max-width:620px){
+  .exp-item{grid-template-columns:1fr;gap:10px}
+  .exp-item .cupwrap{flex-direction:row;align-items:center;gap:12px;justify-content:flex-start}
+  .exp-item .order{text-align:left}
+}
+svg.cup{width:62px;height:62px;display:block;overflow:visible}
+svg.bean{width:26px;height:26px;display:block}
+.steam{stroke:#f6eccf;stroke-width:3.4;fill:none;stroke-linecap:round;opacity:0}
+.exp-item:hover .steam,.exp-item.now .steam{animation:steam 2.6s ease-in-out infinite}
+.steam.s2{animation-delay:.5s}
+.steam.s3{animation-delay:1s}
+@keyframes steam{0%{opacity:0;transform:translateY(4px) scaleY(.7)}30%{opacity:.5}70%{opacity:.18}100%{opacity:0;transform:translateY(-12px) scaleY(1.25)}}
+.exp-item.now::after{content:"Most recent";position:absolute;top:14px;right:16px;font-family:'Archivo';font-weight:900;font-size:8.5px;letter-spacing:1.6px;text-transform:uppercase;color:#141414;background:var(--accent);padding:3px 9px;border-radius:999px}
+@media(max-width:620px){.exp-item.now::after{top:12px;right:12px;font-size:8px;letter-spacing:1.2px}}
+
+/* ---------- AWARDS: the 'G ---------- */
+.ground{position:relative;background:linear-gradient(180deg,#07130d,#0d2418 62%,#123d26);border:1px solid var(--panel-brd);border-radius:var(--radius);overflow:hidden;margin-bottom:26px}
+.ground svg.field{width:100%;height:auto;display:block}
+.scoreboard{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#060908;border:2px solid var(--tram-gold);border-radius:14px;overflow:hidden;margin-bottom:22px}
+.scoreboard div{padding:16px 12px;text-align:center;border-right:1px solid rgba(228,178,62,.3)}
+.scoreboard div:last-child{border-right:0}
+.scoreboard b{display:block;font-family:'Anton';font-size:clamp(26px,5vw,40px);color:var(--tram-gold);line-height:1}
+.scoreboard span{display:block;font-family:'Archivo';font-weight:800;font-size:9.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink-dim);margin-top:5px}
+.goal{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:16px 17px;transition:.25s}
+.goal:hover{border-color:var(--accent);transform:translateY(-3px)}
+.goal svg{width:30px;height:30px;flex:none;margin-top:1px}
+.goal b{display:block;font-size:14.3px;line-height:1.45;font-weight:600}
+.season{margin-top:34px;padding-top:24px;border-top:1px dashed var(--panel-brd)}
+.season .lbl{font-family:'Archivo';font-weight:900;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-dim);margin-bottom:14px}
 </style>
 </head>
 <body>
@@ -440,8 +482,8 @@ footer b{color:var(--accent)}
         <p class="intro">I turn messy data into clear, decision-ready reporting. Master of International Business (Data Analytics) at La&nbsp;Trobe, and open to Data Analyst, BI and Business Analyst roles across Melbourne.</p>
         <p class="intro" style="font-size:14.5px;color:var(--ink-dim);margin-bottom:22px">This portfolio is a tram route. Ride it stop by stop &mdash; or jump straight to the projects.</p>
         <div class="cta">
-          <button class="btn" data-goto="4">Board the tram &rarr;</button>
-          <button class="btn ghost" data-goto="7">Hire me</button>
+          <button class="btn" data-goto="3">Board the tram &rarr;</button>
+          <button class="btn ghost" data-goto="6">Hire me</button>
           <a class="btn ghost" href="https://github.com/Jaysproject" target="_blank" rel="noopener">GitHub</a>
         </div>
         <div class="stats">
@@ -455,11 +497,10 @@ footer b{color:var(--accent)}
         <div class="hd"><span>Flinders St &middot; Departures</span><span class="live">Live</span></div>
         <button class="depart" data-goto="1"><span class="num">02</span><span class="dest">Southbank &amp; the Arts<small>About me</small></span><span class="min">now</span></button>
         <button class="depart" data-goto="2"><span class="num">03</span><span class="dest">The Laneways<small>Skills &amp; tools</small></span><span class="min">2 min</span></button>
-        <button class="depart" data-goto="3"><span class="num">04</span><span class="dest">Degraves Street<small>How I work</small></span><span class="min">4 min</span></button>
-        <button class="depart" data-goto="4"><span class="num">05</span><span class="dest">Docklands<small>Projects</small></span><span class="min">6 min</span></button>
-        <button class="depart" data-goto="5"><span class="num">06</span><span class="dest">Collins Street<small>Experience</small></span><span class="min">8 min</span></button>
-        <button class="depart" data-goto="6"><span class="num">07</span><span class="dest">The 'G<small>Awards &amp; wins</small></span><span class="min">11 min</span></button>
-        <button class="depart" data-goto="7"><span class="num">08</span><span class="dest">Queen Vic Market<small>Contact</small></span><span class="min">13 min</span></button>
+        <button class="depart" data-goto="3"><span class="num">04</span><span class="dest">Docklands<small>Projects</small></span><span class="min">5 min</span></button>
+        <button class="depart" data-goto="4"><span class="num">05</span><span class="dest">Collins Street<small>Experience</small></span><span class="min">7 min</span></button>
+        <button class="depart" data-goto="5"><span class="num">06</span><span class="dest">The 'G<small>Awards &amp; wins</small></span><span class="min">10 min</span></button>
+        <button class="depart" data-goto="6"><span class="num">07</span><span class="dest">Queen Vic Market<small>Contact</small></span><span class="min">12 min</span></button>
       </div>
     </div>
     <div class="ticker" aria-hidden="true">
@@ -471,7 +512,7 @@ footer b{color:var(--accent)}
   </div>
 </section>
 
-<!-- ========== STOP 01 · SOUTHBANK & ARTS PRECINCT ========== -->
+<!-- ========== STOP 01 · SOUTHBANK ========== -->
 <section class="stop" id="stop-1" data-blind="SOUTHBANK" data-name="Southbank &amp; the Arts Precinct" data-short="About">
   <div class="wrap">
     <p class="district">Southbank &middot; The Arts Precinct <em>NGV &middot; Fed Square &middot; the Yarra</em></p>
@@ -481,7 +522,7 @@ footer b{color:var(--accent)}
       <div class="prose">
         <p>I'm a Master of International Business (Data Analytics major) student at La&nbsp;Trobe University, based in Melbourne. I turn messy, real-world data into clear insight with Power&nbsp;BI, SQL, DAX, Tableau and Excel &mdash; from cleaning and validation through to DAX-driven dashboards built on a single source of truth.</p>
         <p>Most recently I was a Junior Data &amp; Payroll Analyst at Veiramal Consultancy here in Melbourne, building Power&nbsp;BI dashboards and keeping HR data clean and reliable. Before that I worked in product operations and IT project coordination, so I translate business needs into clear specs and explain technical findings to people who don't live in spreadsheets.</p>
-        <p>Melbourne is a city of contrasts &mdash; 19th-century gold-rush façades next to sheer glass towers. Good analysis works the same way: the rigorous structure underneath, something people actually enjoy looking at on top.</p>
+        <p>Melbourne is a city of contrasts &mdash; 19th-century gold-rush fa&ccedil;ades next to sheer glass towers. Good analysis works the same way: the rigorous structure underneath, something people actually enjoy looking at on top.</p>
       </div>
       <div class="card facts">
         <h3>Quick facts</h3>
@@ -492,14 +533,6 @@ footer b{color:var(--accent)}
           <li>Open to Data Analyst / BI / Business Analyst roles</li>
           <li>I reply to every message</li>
         </ul>
-      </div>
-    </div>
-    <div class="mel">
-      <div class="lbl">Arts, architecture &amp; history &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#127912;</span><b>National Gallery of Victoria</b><span>Australia's oldest and most-visited public art museum &mdash; and the waterwall everyone touches on the way in.</span></div>
-        <div class="mel-card"><span class="ico">&#127961;&#65039;</span><b>Federation Square</b><span>Fractured, angular, divisive, and now unmistakably Melbourne. Proof that structure can still have a personality.</span></div>
-        <div class="mel-card"><span class="ico">&#127970;</span><b>Gold rush meets glass</b><span>Victorian-era stone and ironwork sitting shoulder to shoulder with modern skyscrapers across the CBD.</span></div>
       </div>
     </div>
   </div>
@@ -522,47 +555,14 @@ footer b{color:var(--accent)}
       <div class="card"><h3>Business analysis</h3><div class="chips"><span class="chip">Requirements Gathering</span><span class="chip">BRDs &amp; FRDs</span><span class="chip">Use Cases</span><span class="chip">User Flows</span><span class="chip">Test Cases &amp; RCA</span><span class="chip">Manual QA Testing</span></div></div>
       <div class="card"><h3>Tools &amp; delivery</h3><div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">Jira</span><span class="chip">Azure DevOps</span><span class="chip">Notion</span><span class="chip">Trello</span><span class="chip">Miro</span></div></div>
     </div>
-    <div class="mel">
-      <div class="lbl">Laneways &amp; street art &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#127912;</span><b>Hosier Lane</b><span>The city's best-known open-air gallery. Bluestone underfoot, a new mural every few weeks.</span></div>
-        <div class="mel-card"><span class="ico">&#127928;</span><b>AC/DC Lane</b><span>Named for the band, covered in paint, and home to some of the best small bars in the CBD.</span></div>
-        <div class="mel-card"><span class="ico">&#127864;</span><b>Hidden bars &amp; rooftops</b><span>Half of Melbourne's best venues have no sign on the door. You just have to know the lane.</span></div>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ========== STOP 03 · DEGRAVES STREET (COFFEE) ========== -->
-<section class="stop" id="stop-3" data-blind="DEGRAVES ST" data-name="Degraves Street" data-short="Process">
-  <div class="wrap">
-    <p class="district">Degraves Street <em>espresso &middot; roasters &middot; brunch</em></p>
-    <div class="route-badge"><span class="disc">04</span> Stop 04 &middot; How I work</div>
-    <h2 class="sec">Fuelled by<br>flat whites</h2>
-    <p class="lead">Melbourne has more cafés per head than almost anywhere on earth, and a genuinely serious opinion about espresso. Here's the five-shot process I run on every piece of analysis.</p>
-    <div class="cols4" style="margin-top:26px">
-      <div class="card"><h3>01 &middot; Scope the question</h3><p>Before a single query, I pin down what decision this is actually for. Requirements gathering, a short BRD, and agreed success criteria &mdash; so nobody builds the wrong dashboard beautifully.</p></div>
-      <div class="card"><h3>02 &middot; Clean &amp; validate</h3><p>The unglamorous part that decides everything. Mixed date formats, duplicates, inconsistent casing, orphan keys. On the NovusEnergy build that meant 10,000+ records across 10 tables and 12 documented data-quality fixes.</p></div>
-      <div class="card"><h3>03 &middot; Model it properly</h3><p>Star schema, surrogate keys, clean relationships. A Medallion layout (bronze &rarr; silver &rarr; gold) when the source data is messy enough to deserve one.</p></div>
-      <div class="card"><h3>04 &middot; Measure &amp; stress-test</h3><p>DAX measures written to be read by humans, then checked against the live model &mdash; rolling 12-month turnover, size-adjusted pay gap, and anything else that would embarrass me in a meeting if it were wrong.</p></div>
-    </div>
-    <div class="card" style="margin-top:16px"><h3>05 &middot; Tell the story</h3><p>A number nobody understands changes nothing. I finish by writing the finding in plain language, showing the one chart that proves it, and saying what I'd do next. That's the part stakeholders actually remember.</p></div>
-    <div class="mel">
-      <div class="lbl">Coffee culture &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#9749;</span><b>The espresso obsession</b><span>A world-renowned coffee scene built on flat whites, independent roasters and baristas who take it personally.</span></div>
-        <div class="mel-card"><span class="ico">&#127859;</span><b>Brunch culture</b><span>Weekend queues down the footpath in Fitzroy, Carlton and South Yarra. Worth it, every time.</span></div>
-        <div class="mel-card"><span class="ico">&#127861;</span><b>Lygon Street</b><span>Melbourne's Little Italy, and the reason this city learned to care about coffee in the first place.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== STOP 04 · DOCKLANDS (PROJECTS) ========== -->
-<section class="stop" id="stop-4" data-blind="DOCKLANDS" data-name="Docklands" data-short="Projects">
+<!-- ========== STOP 03 · DOCKLANDS (PROJECTS) ========== -->
+<section class="stop" id="stop-3" data-blind="DOCKLANDS" data-name="Docklands" data-short="Projects">
   <div class="wrap">
     <p class="district">Docklands &middot; The Port <em>cranes &middot; container yards &middot; dashboards</em></p>
-    <div class="route-badge"><span class="disc">05</span> Stop 05 &middot; The case files</div>
+    <div class="route-badge"><span class="disc">04</span> Stop 04 &middot; The case files</div>
     <h2 class="sec">Projects</h2>
     <p class="lead">Every project here is a live repository on my GitHub. Filter by tool, or open any one to see the data, the model and the write-up.</p>
     <div class="filters" role="group" aria-label="Filter projects">
@@ -632,58 +632,169 @@ footer b{color:var(--accent)}
 
     </div>
     <p style="margin-top:22px"><a class="btn ghost" href="https://github.com/Jaysproject?tab=repositories" target="_blank" rel="noopener">See every repository &#8599;</a></p>
-    <div class="mel">
-      <div class="lbl">Docklands &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#128674;</span><b>The working waterfront</b><span>Container cranes on the skyline &mdash; the city's original data pipeline, moving things from where they are to where they're useful.</span></div>
-        <div class="mel-card"><span class="ico">&#127905;</span><b>The Melbourne Star</b><span>A big wheel that gives you the whole grid at once. Which is more or less what a good dashboard does.</span></div>
-        <div class="mel-card"><span class="ico">&#128642;</span><b>End of the free tram zone</b><span>Route 35 loops the CBD for nothing. Past Docklands, you tap on.</span></div>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ========== STOP 05 · COLLINS STREET (EXPERIENCE) ========== -->
-<section class="stop" id="stop-5" data-blind="COLLINS ST" data-name="Collins Street" data-short="Experience">
+<!-- ========== STOP 04 · COLLINS STREET (EXPERIENCE) ========== -->
+<section class="stop" id="stop-4" data-blind="COLLINS ST" data-name="Collins Street" data-short="Experience">
   <div class="wrap">
     <p class="district">Collins Street <em>the "Paris end" &middot; plane trees &middot; glass towers</em></p>
-    <div class="route-badge"><span class="disc">06</span> Stop 06 &middot; Experience</div>
-    <h2 class="sec">Experience</h2>
-    <div class="timeline">
-      <div class="tl-item"><span class="when">Feb 2026 &ndash; Apr 2026 &middot; Melbourne</span><h3>Junior Data &amp; Payroll Analyst &mdash; Veiramal Consultancy</h3><p>Gathered, validated and maintained accurate HR data, protecting integrity through cleansing and normalisation. Built and enhanced Power BI dashboards that turned HR data into actionable insight, analysing trends and anomalies to support decisions, and partnered with cross-functional teams and external agencies to deliver on time.</p></div>
-      <div class="tl-item"><span class="when">Sep 2024 &ndash; Jan 2025 &middot; Indore, India</span><h3>Product Operations Coordinator &mdash; Quikit</h3><p>Ran daily stand-ups and weekly scrums for a 15-member team and planned sprint cycles. Wrote use cases and workflow documents that cut rework by 25%, managed backlogs in Azure DevOps for a 25% efficiency gain, and ran end-to-end manual QA that improved defect detection by 30%.</p></div>
-      <div class="tl-item"><span class="when">Aug 2024 &ndash; Jan 2025 &middot; Indore, India</span><h3>IT Project Coordinator &mdash; Moreyeahs</h3><p>Gathered client requirements and authored BRDs, FRDs, use cases, user flows, test cases, RCA and WBS &mdash; reducing scope changes by 25% and errors by 15%, resolving conflicts early to cut delays by 20% and improve delivery timelines by 15%.</p></div>
-      <div class="tl-item"><span class="when">Mar 2025 &ndash; 2026 &middot; Melbourne</span><h3>Master of International Business, Data Analytics Major &mdash; La Trobe University</h3><p>Currently studying.</p></div>
-      <div class="tl-item"><span class="when">Sep 2020 &ndash; Jul 2023 &middot; Indore, India</span><h3>Bachelor of Business Administration &mdash; Shri Vaishnav Vidhyapeeth Vishwavidyalaya</h3><p>Foundation in business, operations and management.</p></div>
-    </div>
-    <div class="mel">
-      <div class="lbl">Collins Street &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#127794;</span><b>The "Paris end"</b><span>Plane trees, awnings and the city's most expensive real estate, all the way up to Spring Street.</span></div>
-        <div class="mel-card"><span class="ico">&#128647;</span><b>The hook turn</b><span>To turn right, pull left and wait. Confuses every visitor, keeps the trams moving. Local logic.</span></div>
-        <div class="mel-card"><span class="ico">&#127974;</span><b>Victorian gold-rush grandeur</b><span>Banking halls and arcades built when Melbourne was briefly the richest city in the world.</span></div>
+    <div class="route-badge"><span class="disc">05</span> Stop 05 &middot; Experience</div>
+    <h2 class="sec">Five cups,<br>five chapters</h2>
+
+    <div class="coffee-intro">
+      <p>Melbourne measures a career in coffee orders. Here's mine &mdash; every role paired with what I was drinking while I did it.</p>
+      <div class="beans" aria-hidden="true">
+        <svg class="bean" viewBox="0 0 40 40"><ellipse cx="20" cy="20" rx="11" ry="16" transform="rotate(-28 20 20)" fill="#6b4226" stroke="#c9872f" stroke-width="2"/><path d="M20 6 Q24 20 20 34" stroke="#c9872f" stroke-width="2.4" fill="none" transform="rotate(-28 20 20)"/></svg>
+        <svg class="bean" viewBox="0 0 40 40"><ellipse cx="20" cy="20" rx="11" ry="16" transform="rotate(22 20 20)" fill="#5a3620" stroke="#c9872f" stroke-width="2"/><path d="M20 6 Q16 20 20 34" stroke="#c9872f" stroke-width="2.4" fill="none" transform="rotate(22 20 20)"/></svg>
+        <svg class="bean" viewBox="0 0 40 40"><ellipse cx="20" cy="20" rx="11" ry="16" transform="rotate(-6 20 20)" fill="#7a4c2b" stroke="#c9872f" stroke-width="2"/><path d="M20 6 Q23 20 20 34" stroke="#c9872f" stroke-width="2.4" fill="none" transform="rotate(-6 20 20)"/></svg>
       </div>
+    </div>
+
+    <div class="exp-run">
+
+      <div class="exp-item now">
+        <div class="cupwrap">
+          <svg class="cup" viewBox="0 0 90 90" role="img" aria-label="A flat white"><g class="steamgrp"><path class="steam" d="M34 22 q6 -7 0 -14"/><path class="steam s2" d="M45 20 q6 -8 0 -16"/><path class="steam s3" d="M56 22 q6 -7 0 -14"/></g><ellipse cx="45" cy="76" rx="30" ry="7" fill="#e8dcc0" stroke="#bfae8a" stroke-width="2"/><path d="M66 44 a11 11 0 0 1 0 16" fill="none" stroke="#f4e8c9" stroke-width="6" stroke-linecap="round"/><path d="M19 38 h52 v10 a26 24 0 0 1 -52 0 z" fill="#f4e8c9" stroke="#bfae8a" stroke-width="2"/><ellipse cx="45" cy="38" rx="26" ry="8" fill="#b4793f" stroke="#8c5a2b" stroke-width="2"/><path d="M45 32 q7 6 0 12 q-7 -6 0 -12 M45 33 q-11 3 0 9 q11 -6 0 -9" fill="#f8efd8" opacity=".92"/></svg>
+          <span class="order">Flat white</span>
+        </div>
+        <div>
+          <span class="when">Feb 2026 &ndash; Apr 2026 &middot; Melbourne</span>
+          <h3>Junior Data &amp; Payroll Analyst &mdash; Veiramal Consultancy</h3>
+          <p>Gathered, validated and maintained accurate HR data, protecting integrity through cleansing and normalisation. Built and enhanced Power BI dashboards that turned HR data into actionable insight, analysing trends and anomalies to support decisions, and partnered with cross-functional teams and external agencies to deliver on time.</p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="cupwrap">
+          <svg class="cup" viewBox="0 0 90 90" role="img" aria-label="A long black"><g><path class="steam" d="M36 16 q6 -7 0 -14"/><path class="steam s2" d="M50 14 q6 -8 0 -16"/></g><ellipse cx="45" cy="80" rx="22" ry="5" fill="#e8dcc0" stroke="#bfae8a" stroke-width="2"/><path d="M28 26 h34 l-4 48 a13 7 0 0 1 -26 0 z" fill="rgba(244,232,201,.16)" stroke="#e0d3b0" stroke-width="2.4"/><path d="M30 38 h30 l-3 36 a12 6 0 0 1 -24 0 z" fill="#3b2113" stroke="#24140b" stroke-width="1.5"/><ellipse cx="45" cy="38" rx="15" ry="4.4" fill="#8b5a2b"/><ellipse cx="45" cy="37.4" rx="10" ry="2.8" fill="#c08b4e" opacity=".75"/></svg>
+          <span class="order">Long black</span>
+        </div>
+        <div>
+          <span class="when">Sep 2024 &ndash; Jan 2025 &middot; Indore, India</span>
+          <h3>Product Operations Coordinator &mdash; Quikit</h3>
+          <p>Ran daily stand-ups and weekly scrums for a 15-member team and planned sprint cycles. Wrote use cases and workflow documents that cut rework by 25%, managed backlogs in Azure DevOps for a 25% efficiency gain, and ran end-to-end manual QA that improved defect detection by 30%.</p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="cupwrap">
+          <svg class="cup" viewBox="0 0 90 90" role="img" aria-label="A magic"><g><path class="steam" d="M38 26 q5 -6 0 -12"/><path class="steam s2" d="M52 26 q5 -6 0 -12"/></g><ellipse cx="45" cy="74" rx="26" ry="6.5" fill="#e8dcc0" stroke="#bfae8a" stroke-width="2"/><path d="M62 46 a9.5 9.5 0 0 1 0 14" fill="none" stroke="#f4e8c9" stroke-width="5.5" stroke-linecap="round"/><path d="M25 42 h40 v8 a20 19 0 0 1 -40 0 z" fill="#f4e8c9" stroke="#bfae8a" stroke-width="2"/><ellipse cx="45" cy="42" rx="20" ry="6.4" fill="#9c6433" stroke="#7a4c24" stroke-width="2"/><circle cx="45" cy="42" r="7" fill="#f8efd8" opacity=".9"/><circle cx="45" cy="42" r="3" fill="#9c6433" opacity=".55"/></svg>
+          <span class="order">Magic</span>
+        </div>
+        <div>
+          <span class="when">Aug 2024 &ndash; Jan 2025 &middot; Indore, India</span>
+          <h3>IT Project Coordinator &mdash; Moreyeahs</h3>
+          <p>Gathered client requirements and authored BRDs, FRDs, use cases, user flows, test cases, RCA and WBS &mdash; reducing scope changes by 25% and errors by 15%, resolving conflicts early to cut delays by 20% and improve delivery timelines by 15%.</p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="cupwrap">
+          <svg class="cup" viewBox="0 0 90 90" role="img" aria-label="A cold brew"><ellipse cx="45" cy="82" rx="20" ry="4.5" fill="rgba(0,0,0,.3)"/><path d="M29 18 h32 v54 a12 6 0 0 1 -32 0 z" fill="rgba(244,232,201,.14)" stroke="#e0d3b0" stroke-width="2.4"/><path d="M30 34 h30 v38 a11 5.5 0 0 1 -30 0 z" fill="#4a2a17" stroke="#2c180d" stroke-width="1.4"/><rect x="34" y="38" width="11" height="11" rx="2.5" fill="#dff1f5" opacity=".75" transform="rotate(-14 39 43)"/><rect x="46" y="48" width="11" height="11" rx="2.5" fill="#dff1f5" opacity=".65" transform="rotate(10 51 53)"/><rect x="36" y="56" width="10" height="10" rx="2.5" fill="#dff1f5" opacity=".55" transform="rotate(22 41 61)"/><rect x="52" y="8" width="7" height="30" rx="3.5" fill="#e4b23e" transform="rotate(14 55 23)"/></svg>
+          <span class="order">Cold brew</span>
+        </div>
+        <div>
+          <span class="when">Mar 2025 &ndash; 2026 &middot; Melbourne</span>
+          <h3>Master of International Business, Data Analytics Major &mdash; La Trobe University</h3>
+          <p>Currently studying, and applying each unit straight into the dashboards and warehouses in the projects stop.</p>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="cupwrap">
+          <svg class="cup" viewBox="0 0 90 90" role="img" aria-label="An espresso"><g><path class="steam" d="M40 34 q4 -5 0 -10"/><path class="steam s2" d="M50 34 q4 -5 0 -10"/></g><ellipse cx="45" cy="72" rx="23" ry="6" fill="#e8dcc0" stroke="#bfae8a" stroke-width="2"/><path d="M60 50 a8 8 0 0 1 0 12" fill="none" stroke="#f4e8c9" stroke-width="5" stroke-linecap="round"/><path d="M31 48 h28 v6 a14 14 0 0 1 -28 0 z" fill="#f4e8c9" stroke="#bfae8a" stroke-width="2"/><ellipse cx="45" cy="48" rx="14" ry="4.6" fill="#4a2a17" stroke="#2c180d" stroke-width="1.8"/><ellipse cx="45" cy="47.4" rx="9" ry="2.6" fill="#b4793f" opacity=".8"/></svg>
+          <span class="order">Espresso</span>
+        </div>
+        <div>
+          <span class="when">Sep 2020 &ndash; Jul 2023 &middot; Indore, India</span>
+          <h3>Bachelor of Business Administration &mdash; Shri Vaishnav Vidhyapeeth Vishwavidyalaya</h3>
+          <p>Where it started &mdash; the business grounding underneath everything I do with data now.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ========== STOP 06 · THE 'G (AWARDS) ========== -->
-<section class="stop" id="stop-6" data-blind="THE 'G · MCG" data-name="The MCG" data-short="Awards">
+<!-- ========== STOP 05 · THE 'G (AWARDS) ========== -->
+<section class="stop" id="stop-5" data-blind="THE 'G &middot; MCG" data-name="The MCG" data-short="Awards">
   <div class="wrap">
     <p class="district">The 'G &middot; Yarra Park <em>floodlights &middot; 100,000 people &middot; one roar</em></p>
-    <div class="route-badge"><span class="disc">07</span> Stop 07 &middot; Awards &amp; wins</div>
+    <div class="route-badge"><span class="disc">06</span> Stop 06 &middot; Awards &amp; wins</div>
     <h2 class="sec">On the<br>scoreboard</h2>
-    <p class="lead">Melbourne measures itself in seasons and finals. Here's my form guide.</p>
-    <div class="ach-grid" style="margin-top:24px">
-      <div class="ach"><span class="medal">&#127942;</span><b>Built a Power BI people-analytics dashboard with 41 DAX measures for a 1,750+ employee workforce</b></div>
-      <div class="ach"><span class="medal">&#129351;</span><b>Designed a Medallion-architecture SQL data warehouse with automated ETL and a gold-layer star schema</b></div>
-      <div class="ach"><span class="medal">&#128220;</span><b>Certified &mdash; Power BI and Tableau for Data Visualisation</b></div>
-      <div class="ach"><span class="medal">&#128220;</span><b>Professional Diploma in Agile and Project Management</b></div>
-      <div class="ach"><span class="medal">&#9889;</span><b>Cut rework 25% and improved defect detection 30% at Quikit</b></div>
-      <div class="ach"><span class="medal">&#127919;</span><b>Reduced scope changes 25% and errors 15% at Moreyeahs</b></div>
+
+    <!-- AFL ground illustration: floodlights, goal posts, Sherrin -->
+    <div class="ground">
+      <svg class="field" viewBox="0 0 1200 300" role="img" aria-label="An AFL ground at night: floodlight towers, goal posts and a Sherrin football">
+        <defs>
+          <radialGradient id="glow"><stop offset="0%" stop-color="#fff6d8" stop-opacity=".95"/><stop offset="55%" stop-color="#e4b23e" stop-opacity=".35"/><stop offset="100%" stop-color="#e4b23e" stop-opacity="0"/></radialGradient>
+          <linearGradient id="turf" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1c5e3a"/><stop offset="100%" stop-color="#0d3521"/></linearGradient>
+        </defs>
+
+        <!-- turf -->
+        <ellipse cx="600" cy="320" rx="720" ry="130" fill="url(#turf)"/>
+        <ellipse cx="600" cy="320" rx="720" ry="130" fill="none" stroke="rgba(244,232,201,.3)" stroke-width="3"/>
+        <ellipse cx="600" cy="300" rx="300" ry="54" fill="none" stroke="rgba(244,232,201,.22)" stroke-width="2.5"/>
+        <rect x="560" y="268" width="80" height="34" fill="none" stroke="rgba(244,232,201,.22)" stroke-width="2.5"/>
+
+        <!-- floodlight tower, left -->
+        <g>
+          <circle cx="150" cy="54" r="88" fill="url(#glow)"/>
+          <rect x="143" y="70" width="14" height="190" fill="#2b3942"/>
+          <path d="M120 260 L150 120 L180 260" fill="none" stroke="#2b3942" stroke-width="7"/>
+          <rect x="104" y="36" width="92" height="40" rx="7" fill="#1b252b" stroke="#e4b23e" stroke-width="3"/>
+          <g fill="#ffeeb8"><circle cx="122" cy="48" r="7"/><circle cx="144" cy="48" r="7"/><circle cx="166" cy="48" r="7"/><circle cx="183" cy="48" r="7"/><circle cx="122" cy="65" r="7"/><circle cx="144" cy="65" r="7"/><circle cx="166" cy="65" r="7"/><circle cx="183" cy="65" r="7"/></g>
+        </g>
+        <!-- floodlight tower, right -->
+        <g>
+          <circle cx="1050" cy="54" r="88" fill="url(#glow)"/>
+          <rect x="1043" y="70" width="14" height="190" fill="#2b3942"/>
+          <path d="M1020 260 L1050 120 L1080 260" fill="none" stroke="#2b3942" stroke-width="7"/>
+          <rect x="1004" y="36" width="92" height="40" rx="7" fill="#1b252b" stroke="#e4b23e" stroke-width="3"/>
+          <g fill="#ffeeb8"><circle cx="1022" cy="48" r="7"/><circle cx="1044" cy="48" r="7"/><circle cx="1066" cy="48" r="7"/><circle cx="1083" cy="48" r="7"/><circle cx="1022" cy="65" r="7"/><circle cx="1044" cy="65" r="7"/><circle cx="1066" cy="65" r="7"/><circle cx="1083" cy="65" r="7"/></g>
+        </g>
+
+        <!-- goal posts: two tall goals, two shorter behinds -->
+        <g stroke="#f4e8c9" stroke-width="9" stroke-linecap="round">
+          <line x1="470" y1="262" x2="470" y2="92"/>
+          <line x1="730" y1="262" x2="730" y2="92"/>
+        </g>
+        <g stroke="#cdbf9f" stroke-width="7" stroke-linecap="round">
+          <line x1="372" y1="266" x2="372" y2="158"/>
+          <line x1="828" y1="266" x2="828" y2="158"/>
+        </g>
+
+        <!-- the Sherrin, mid-flight through the goals -->
+        <g transform="translate(600 170) rotate(-24)">
+          <ellipse cx="0" cy="0" rx="58" ry="35" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="3.5"/>
+          <path d="M-40 -22 Q-30 0 -40 22" fill="none" stroke="#f4e8c9" stroke-width="5"/>
+          <path d="M40 -22 Q30 0 40 22" fill="none" stroke="#f4e8c9" stroke-width="5"/>
+          <line x1="-22" y1="0" x2="22" y2="0" stroke="#f4e8c9" stroke-width="3.5"/>
+          <g stroke="#f4e8c9" stroke-width="3.5" stroke-linecap="round"><line x1="-14" y1="-8" x2="-14" y2="8"/><line x1="-3" y1="-9" x2="-3" y2="9"/><line x1="8" y1="-9" x2="8" y2="9"/><line x1="18" y1="-7" x2="18" y2="7"/></g>
+        </g>
+        <!-- flight trail -->
+        <path d="M700 272 Q660 220 624 190" fill="none" stroke="rgba(244,232,201,.4)" stroke-width="3.5" stroke-dasharray="10 12" stroke-linecap="round"/>
+      </svg>
     </div>
-    <div class="mel">
-      <div class="lbl">The sporting capital &mdash; the calendar this city runs on</div>
+
+    <div class="scoreboard" role="img" aria-label="Scoreboard: 7 projects, 4 roles, 2 certifications">
+      <div><b>7</b><span>Projects shipped</span></div>
+      <div><b>4</b><span>Roles played</span></div>
+      <div><b>2</b><span>Certifications</span></div>
+    </div>
+
+    <div class="ach-grid">
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Built a Power BI people-analytics dashboard with 41 DAX measures for a 1,750+ employee workforce</b></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Designed a Medallion-architecture SQL data warehouse with automated ETL and a gold-layer star schema</b></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Certified &mdash; Power BI and Tableau for Data Visualisation</b></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Professional Diploma in Agile and Project Management</b></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Cut rework 25% and improved defect detection 30% at Quikit</b></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Reduced scope changes 25% and errors 15% at Moreyeahs</b></div>
+    </div>
+
+    <div class="season">
+      <div class="lbl">The season this city runs on</div>
       <div class="fixture">
         <div class="fx"><b>AFL</b><span>Aussie Rules at the MCG. Close to a religion, and the reason the city empties on a Saturday.</span></div>
         <div class="fx"><b>Australian Open</b><span>The year's first tennis major, every January at Melbourne Park.</span></div>
@@ -695,11 +806,11 @@ footer b{color:var(--accent)}
   </div>
 </section>
 
-<!-- ========== STOP 07 · QUEEN VIC MARKET (CONTACT) ========== -->
-<section class="stop" id="stop-7" data-blind="QUEEN VIC MKT" data-name="Queen Victoria Market" data-short="Contact">
+<!-- ========== STOP 06 · QUEEN VIC MARKET (CONTACT) ========== -->
+<section class="stop" id="stop-6" data-blind="QUEEN VIC MKT" data-name="Queen Victoria Market" data-short="Contact">
   <div class="wrap">
     <p class="district">Queen Victoria Market &middot; Lygon Street <em>the multicultural soul of the city</em></p>
-    <div class="route-badge"><span class="disc">08</span> Final stop &middot; Contact</div>
+    <div class="route-badge"><span class="disc">07</span> Final stop &middot; Contact</div>
     <h2 class="sec">End of the line &mdash;<br>let's talk</h2>
     <div class="grid2" style="margin-top:22px">
       <div>
@@ -717,14 +828,6 @@ footer b{color:var(--accent)}
         <textarea placeholder="Your message" required></textarea>
         <button class="btn" type="submit">Send via email</button>
       </form>
-    </div>
-    <div class="mel">
-      <div class="lbl">Multicultural soul &amp; quirky livability &mdash; around this stop</div>
-      <div class="mel-grid">
-        <div class="mel-card"><span class="ico">&#127823;</span><b>Queen Victoria Market</b><span>Open-air since 1878. Produce, deli halls and the best sense of how many places this city is made of.</span></div>
-        <div class="mel-card"><span class="ico">&#127828;</span><b>Lygon Street</b><span>Carlton's Italian heart &mdash; and a fair argument for where Australian coffee culture began.</span></div>
-        <div class="mel-card"><span class="ico">&#127782;&#65039;</span><b>Four seasons in one day</b><span>Sunshine to wind to rain before lunch. Try the weather switcher in the corner &mdash; the whole site changes with it.</span></div>
-      </div>
     </div>
   </div>
   <footer>&copy; <span id="yr"></span> <b>Jay Deshmukh</b> &middot; Melbourne, Australia &middot; Built as a tram route &#128650;</footer>
