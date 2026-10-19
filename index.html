@@ -133,10 +133,10 @@ h2.sec{font-family:'Anton';font-size:clamp(34px,6vw,66px);line-height:.94;margin
 @keyframes blink{50%{opacity:.25}}
 h1.name{font-family:'Anton';font-size:clamp(46px,10vw,108px);line-height:.85;text-transform:uppercase;margin-bottom:4px}
 h1.name .l2{color:var(--accent)}
-.blind{display:inline-block;background:#080808;color:var(--tram-gold);font-family:'Anton';letter-spacing:4px;padding:6px 18px;border-radius:5px;border:2px solid var(--tram-gold);font-size:clamp(16px,3vw,27px);margin:14px 0 20px;overflow:hidden;height:calc(1.5em + 12px);min-width:min(330px,88vw);text-align:center;box-shadow:inset 0 0 22px rgba(0,0,0,.8)}
-.blind .roll{display:block;animation:roll 10s infinite}
+.blind{display:inline-block;background:#080808;color:var(--tram-gold);font-family:'Anton';letter-spacing:3px;padding:6px 18px;border-radius:5px;border:2px solid var(--tram-gold);font-size:clamp(15px,2.7vw,25px);margin:14px 0 20px;overflow:hidden;height:calc(1.5em + 12px);min-width:min(450px,90vw);text-align:center;white-space:nowrap;box-shadow:inset 0 0 22px rgba(0,0,0,.8)}
+.blind .roll{display:block;animation:roll 15s infinite}
 .blind .roll span{display:block;height:1.5em;line-height:1.5em}
-@keyframes roll{0%,16%{transform:translateY(0)}20%,36%{transform:translateY(-1.5em)}40%,56%{transform:translateY(-3em)}60%,76%{transform:translateY(-4.5em)}80%,96%{transform:translateY(-6em)}100%{transform:translateY(-7.5em)}}
+@keyframes roll{0%,9%{transform:translateY(0)}12.5%,21.5%{transform:translateY(-1.5em)}25%,34%{transform:translateY(-3em)}37.5%,46.5%{transform:translateY(-4.5em)}50%,59%{transform:translateY(-6em)}62.5%,71.5%{transform:translateY(-7.5em)}75%,84%{transform:translateY(-9em)}87.5%,96.5%{transform:translateY(-10.5em)}100%{transform:translateY(-12em)}}
 .intro{color:var(--ink-soft);font-size:17px;max-width:56ch;margin-bottom:26px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .btn{font-family:'Archivo';font-weight:800;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 22px;border-radius:12px;border:2px solid var(--accent);cursor:pointer;transition:.2s;background:var(--accent);color:#141414;display:inline-block}
@@ -153,8 +153,8 @@ h1.name .l2{color:var(--accent)}
 .depart:last-child{border-bottom:0}
 .depart:hover{transform:translateX(5px)}
 .depart .num{width:34px;height:34px;border-radius:50%;flex:none;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:13px}
-.depart .dest{flex:1;font-weight:600;font-size:14px}
-.depart .dest small{display:block;color:var(--ink-dim);font-size:11px;font-weight:500}
+.depart .dest{flex:1;font-weight:700;font-size:14.5px}
+.depart .dest small{display:block;color:var(--ink-dim);font-size:11px;font-weight:500;letter-spacing:.3px;margin-top:1px}
 .depart .min{font-family:'Archivo';font-weight:900;color:var(--tram-gold);font-size:14px}
 
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
@@ -342,18 +342,23 @@ svg.bean{width:26px;height:26px;display:block}
 .exp-item.now::after{content:"Most recent";position:absolute;top:14px;right:16px;font-family:'Archivo';font-weight:900;font-size:8.5px;letter-spacing:1.6px;text-transform:uppercase;color:#141414;background:var(--accent);padding:3px 9px;border-radius:999px}
 @media(max-width:620px){.exp-item.now::after{top:12px;right:12px;font-size:8px;letter-spacing:1.2px}}
 
-/* ---------- AWARDS: the 'G ---------- */
-.ground{position:relative;background:linear-gradient(180deg,#07130d,#0d2418 62%,#123d26);border:1px solid var(--panel-brd);border-radius:var(--radius);overflow:hidden;margin-bottom:26px}
+/* ---------- CERTIFICATIONS & ACHIEVEMENTS: the 'G ---------- */
+.ground{position:relative;background:linear-gradient(180deg,#07130d,#0d2418 62%,#123d26);border:1px solid var(--panel-brd);border-radius:var(--radius);overflow:hidden;margin:0 auto 24px;max-width:680px}
 .ground svg.field{width:100%;height:auto;display:block}
 .scoreboard{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#060908;border:2px solid var(--tram-gold);border-radius:14px;overflow:hidden;margin-bottom:22px}
 .scoreboard div{padding:16px 12px;text-align:center;border-right:1px solid rgba(228,178,62,.3)}
 .scoreboard div:last-child{border-right:0}
 .scoreboard b{display:block;font-family:'Anton';font-size:clamp(26px,5vw,40px);color:var(--tram-gold);line-height:1}
 .scoreboard span{display:block;font-family:'Archivo';font-weight:800;font-size:9.5px;letter-spacing:2.2px;text-transform:uppercase;color:var(--ink-dim);margin-top:5px}
-.goal{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:16px 17px;transition:.25s}
-.goal:hover{border-color:var(--accent);transform:translateY(-3px)}
+.goal{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--panel-brd);border-left:3px solid var(--tram-gold);border-radius:var(--radius);padding:18px 19px;transition:.25s}
+.goal:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--shadow)}
 .goal svg{width:30px;height:30px;flex:none;margin-top:1px}
-.goal b{display:block;font-size:14.3px;line-height:1.45;font-weight:600}
+.goal b{display:block;font-size:15.4px;line-height:1.45;font-weight:700;color:var(--ink)}
+.goal small{display:block;font-size:12.4px;color:var(--ink-dim);font-weight:500;margin-top:4px}
+.goal a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.goal.key{background:linear-gradient(135deg,rgba(228,178,62,.15),var(--card) 62%);border-color:rgba(228,178,62,.5);border-left-width:4px}
+.goal.key b{font-size:16.4px}
+.ach-grid{gap:16px}
 .season{margin-top:34px;padding-top:24px;border-top:1px dashed var(--panel-brd)}
 .season .lbl{font-family:'Archivo';font-weight:900;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-dim);margin-bottom:14px}
 </style>
@@ -476,13 +481,14 @@ svg.bean{width:26px;height:26px;display:block}
         <div class="blind" aria-label="Role">
           <span class="roll">
             <span>DATA ANALYST</span><span>BI DEVELOPER</span><span>POWER BI &middot; DAX</span>
+            <span>MICROSOFT FABRIC</span><span>AZURE &middot; PYTHON</span><span>AI &amp; AUTOMATION</span>
             <span>SQL &middot; TABLEAU</span><span>BUSINESS ANALYST</span><span>DATA ANALYST</span>
           </span>
         </div>
         <p class="intro">I turn messy data into clear, decision-ready reporting. Master of International Business (Data Analytics) at La&nbsp;Trobe, and open to Data Analyst, BI and Business Analyst roles across Melbourne.</p>
         <p class="intro" style="font-size:14.5px;color:var(--ink-dim);margin-bottom:22px">This portfolio is a tram route. Ride it stop by stop &mdash; or jump straight to the projects.</p>
         <div class="cta">
-          <button class="btn" data-goto="3">Board the tram &rarr;</button>
+          <button class="btn" data-goto="1">Explore my portfolio &rarr;</button>
           <button class="btn ghost" data-goto="6">Hire me</button>
           <a class="btn ghost" href="https://github.com/Jaysproject" target="_blank" rel="noopener">GitHub</a>
         </div>
@@ -495,12 +501,12 @@ svg.bean{width:26px;height:26px;display:block}
       </div>
       <div class="board" aria-label="Next departures">
         <div class="hd"><span>Flinders St &middot; Departures</span><span class="live">Live</span></div>
-        <button class="depart" data-goto="1"><span class="num">02</span><span class="dest">Southbank &amp; the Arts<small>About me</small></span><span class="min">now</span></button>
-        <button class="depart" data-goto="2"><span class="num">03</span><span class="dest">The Laneways<small>Skills &amp; tools</small></span><span class="min">2 min</span></button>
-        <button class="depart" data-goto="3"><span class="num">04</span><span class="dest">Docklands<small>Projects</small></span><span class="min">5 min</span></button>
-        <button class="depart" data-goto="4"><span class="num">05</span><span class="dest">Collins Street<small>Experience</small></span><span class="min">7 min</span></button>
-        <button class="depart" data-goto="5"><span class="num">06</span><span class="dest">The 'G<small>Awards &amp; wins</small></span><span class="min">10 min</span></button>
-        <button class="depart" data-goto="6"><span class="num">07</span><span class="dest">Queen Vic Market<small>Contact</small></span><span class="min">12 min</span></button>
+        <button class="depart" data-goto="1"><span class="num">02</span><span class="dest">About me<small>Southbank &amp; the Arts</small></span><span class="min">now</span></button>
+        <button class="depart" data-goto="2"><span class="num">03</span><span class="dest">Skills &amp; tools<small>The Laneways</small></span><span class="min">2 min</span></button>
+        <button class="depart" data-goto="3"><span class="num">04</span><span class="dest">Projects<small>Docklands</small></span><span class="min">5 min</span></button>
+        <button class="depart" data-goto="4"><span class="num">05</span><span class="dest">Experience<small>Collins Street</small></span><span class="min">7 min</span></button>
+        <button class="depart" data-goto="5"><span class="num">06</span><span class="dest">Certifications &amp; achievements<small>The 'G</small></span><span class="min">10 min</span></button>
+        <button class="depart" data-goto="6"><span class="num">07</span><span class="dest">Contact<small>Queen Vic Market</small></span><span class="min">12 min</span></button>
       </div>
     </div>
     <div class="ticker" aria-hidden="true">
@@ -717,11 +723,11 @@ svg.bean{width:26px;height:26px;display:block}
   </div>
 </section>
 
-<!-- ========== STOP 05 · THE 'G (AWARDS) ========== -->
-<section class="stop" id="stop-5" data-blind="THE 'G &middot; MCG" data-name="The MCG" data-short="Awards">
+<!-- ========== STOP 05 · THE 'G (CERTIFICATIONS & ACHIEVEMENTS) ========== -->
+<section class="stop" id="stop-5" data-blind="THE 'G &middot; MCG" data-name="The MCG" data-short="Certifications">
   <div class="wrap">
     <p class="district">The 'G &middot; Yarra Park <em>floodlights &middot; 100,000 people &middot; one roar</em></p>
-    <div class="route-badge"><span class="disc">06</span> Stop 06 &middot; Awards &amp; wins</div>
+    <div class="route-badge"><span class="disc">06</span> Stop 06 &middot; Certifications &amp; achievements</div>
     <h2 class="sec">On the<br>scoreboard</h2>
 
     <!-- AFL ground illustration: floodlights, goal posts, Sherrin -->
@@ -778,31 +784,19 @@ svg.bean{width:26px;height:26px;display:block}
       </svg>
     </div>
 
-    <div class="scoreboard" role="img" aria-label="Scoreboard: 7 projects, 4 roles, 2 certifications">
+    <div class="scoreboard" role="img" aria-label="Scoreboard: 7 projects, 4 roles, 3 certifications">
       <div><b>7</b><span>Projects shipped</span></div>
       <div><b>4</b><span>Roles played</span></div>
-      <div><b>2</b><span>Certifications</span></div>
+      <div><b>3</b><span>Certifications</span></div>
     </div>
 
     <div class="ach-grid">
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Built a Power BI people-analytics dashboard with 41 DAX measures for a 1,750+ employee workforce</b></div>
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Designed a Medallion-architecture SQL data warehouse with automated ETL and a gold-layer star schema</b></div>
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Certified &mdash; Power BI and Tableau for Data Visualisation</b></div>
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Professional Diploma in Agile and Project Management</b></div>
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Cut rework 25% and improved defect detection 30% at Quikit</b></div>
-      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><b>Reduced scope changes 25% and errors 15% at Moreyeahs</b></div>
+      <div class="goal key"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><div><b>Top student in my Master's cohort</b><small>Master of International Business (Data Analytics major), La Trobe University</small></div></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><div><b>The Complete SQL Bootcamp (30 Hours): Go from Zero to Hero</b><small>Udemy &middot; <a href="https://www.udemy.com/course/the-complete-sql-bootcamp-30-hours-go-from-zero-to-hero/" target="_blank" rel="noopener">view the course &#8599;</a></small></div></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><div><b>Certified &mdash; Power BI and Tableau for Data Visualisation</b></div></div>
+      <div class="goal"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="17" ry="10.5" transform="rotate(-20 20 20)" fill="#8e2f1c" stroke="#f4e8c9" stroke-width="2"/><line x1="8" y1="24" x2="32" y2="16" stroke="#f4e8c9" stroke-width="2"/></svg><div><b>Professional Diploma in Agile and Project Management</b></div></div>
     </div>
 
-    <div class="season">
-      <div class="lbl">The season this city runs on</div>
-      <div class="fixture">
-        <div class="fx"><b>AFL</b><span>Aussie Rules at the MCG. Close to a religion, and the reason the city empties on a Saturday.</span></div>
-        <div class="fx"><b>Australian Open</b><span>The year's first tennis major, every January at Melbourne Park.</span></div>
-        <div class="fx"><b>F1 Grand Prix</b><span>Formula 1 around Albert Park Lake, and the noise that comes with it.</span></div>
-        <div class="fx"><b>Melbourne Cup</b><span>The race that stops a nation &mdash; and a public holiday to prove it.</span></div>
-      </div>
-      <p style="margin-top:16px;color:var(--ink-dim);font-size:13.5px">Fitting, then, that one of my Tableau builds is a <a href="https://github.com/Jaysproject/sports-analytics-tableau-Dashboard" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">sports analytics dashboard</a>.</p>
-    </div>
   </div>
 </section>
 
