@@ -4,39 +4,40 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jay Deshmukh — Data Analyst | Melbourne</title>
-<meta name="description" content="Jay Deshmukh — Melbourne-based Data Analyst. Power BI, SQL, DAX, Tableau. Tram-and-tracks themed portfolio." />
+<meta name="description" content="Jay Deshmukh — Melbourne-based Data Analyst. Power BI, SQL, DAX, Tableau. A tram ride through my work, stop by stop." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Permanent+Marker&display=swap" rel="stylesheet" />
 <style>
-/* =========================================================
-   MELBOURNE — "TRAMS & TRACKS" THEME
-   Tokens grounded in real Melbourne civic colour:
-   - W-class tram heritage green + cream/gold livery
-   - Flinders Street Station ochre
-   - Bluestone (the grey stone of Melbourne's footpaths)
-   - Yarra-at-dusk accent
-   Four weather themes = Melbourne's "four seasons in one day".
-   ========================================================= */
+/* =======================================================================
+   MELBOURNE — "SEVEN STOPS" PORTFOLIO
+   Palette from real Melbourne civic colour:
+     W-class tram heritage green + cream/gold livery
+     Flinders Street Station ochre
+     Bluestone (the stone of Melbourne's kerbs and laneways)
+     Laneway spray-can accents (Hosier Lane)
+   Weather switcher = "four seasons in one day".
+   ======================================================================= */
 :root{
-  --tram-green:#0e4b2e; --tram-green-2:#13623c;
+  --tram-green:#0e4b2e; --tram-green-2:#13623c; --tram-green-3:#0a3a24;
   --tram-cream:#f4e8c9; --tram-gold:#e4b23e;
   --ochre:#c9872f; --ochre-deep:#a66a1f;
   --bluestone:#26323a; --bluestone-2:#32424c;
   --yarra:#4a6b74; --signal-red:#b5342b;
+  --spray-pink:#e2457f; --spray-teal:#2fb8a8; --spray-violet:#8257c7;
 
-  --bg:#10201a; --bg-2:#16281f;
+  --bg:#0f2019; --bg-2:#16281f;
   --panel:rgba(244,232,201,0.04); --panel-brd:rgba(244,232,201,0.14);
-  --ink:#f4e8c9; --ink-soft:#cdbf9f; --ink-dim:#9b9079;
+  --ink:#f6eccf; --ink-soft:#d3c6a4; --ink-dim:#a0957c;
   --accent:var(--tram-gold); --accent-2:var(--ochre);
   --rail:rgba(244,232,201,0.18); --card:rgba(255,255,255,0.03);
-  --sky-top:#0c1a15; --sky-bot:#14271e;
+  --sky-top:#123b24; --sky-bot:#1d5636;
 
-  --maxw:1180px; --radius:14px; --shadow:0 18px 50px rgba(0,0,0,0.45);
+  --maxw:1200px; --radius:16px; --shadow:0 18px 50px rgba(0,0,0,0.45);
 }
 [data-weather="morning"]{
   --bg:#1b2630;--bg-2:#232f3a;--ink:#f3ecda;--ink-soft:#c9c3b0;--ink-dim:#9a9684;
-  --sky-top:#2a3a48;--sky-bot:#4a5f5c;--accent:var(--tram-gold);--accent-2:#e7a94b;
+  --sky-top:#2a3a48;--sky-bot:#4a5f5c;--accent:#edc05a;--accent-2:#e7a94b;
   --panel:rgba(244,232,201,0.05);--panel-brd:rgba(244,232,201,0.16);
 }
 [data-weather="sunny"]{
@@ -54,390 +55,660 @@
   --rail:rgba(90,138,147,0.3);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden;transition:background .6s ease,color .6s ease}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.62;overflow-x:hidden;transition:background .6s ease,color .6s ease;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
-.display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px;line-height:.95}
-.skip{position:absolute;left:-999px;top:0;background:var(--accent);color:#1a1a1a;padding:10px 16px;z-index:999;border-radius:0 0 8px 0}
+button{font-family:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#141414;padding:10px 16px;z-index:9999;border-radius:0 0 8px 0;font-weight:700}
 .skip:focus{left:0}
 
-.tracks{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
-.tracks::before,.tracks::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:repeating-linear-gradient(to bottom,var(--rail) 0 22px,transparent 22px 40px)}
-.tracks::before{left:calc(50% - 26px)}
-.tracks::after{left:calc(50% + 23px)}
-@media(max-width:760px){.tracks{display:none}}
-.overhead{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.4;z-index:1}
+/* ---------- ambient rails + overhead wire ---------- */
+.rails{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45}
+.rails::before,.rails::after{content:"";position:absolute;top:0;bottom:0;width:3px;background:repeating-linear-gradient(to bottom,var(--rail) 0 22px,transparent 22px 42px)}
+.rails::before{left:calc(50% - 30px)}
+.rails::after{left:calc(50% + 27px)}
+@media(max-width:820px){.rails{display:none}}
+.wire{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:.45;z-index:1;pointer-events:none}
 
-header{position:fixed;top:0;left:0;right:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--panel-brd)}
-.nav{display:flex;align-items:center;gap:18px;height:64px}
-.brand{display:flex;align-items:center;gap:12px;font-weight:800}
-.route-disc{width:38px;height:38px;border-radius:50%;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:16px;box-shadow:0 0 0 3px rgba(0,0,0,.25)}
-.brand b{font-family:'Archivo';font-weight:900;letter-spacing:1px;font-size:15px}
-.brand span{color:var(--accent);font-size:11px;letter-spacing:3px;display:block;line-height:1;margin-top:2px}
-nav.links{margin-left:auto;display:flex;gap:4px}
-nav.links a{font-size:12.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:8px 12px;border-radius:8px;color:var(--ink-soft);transition:.2s}
-nav.links a:hover{color:var(--ink);background:var(--panel)}
-.nav-clock{font-family:'Archivo';font-weight:700;font-size:13px;color:var(--accent);letter-spacing:1px}
-.burger{display:none;margin-left:auto;background:none;border:1px solid var(--panel-brd);color:var(--ink);width:42px;height:38px;border-radius:9px;font-size:18px;cursor:pointer}
-@media(max-width:900px){
-  nav.links{position:fixed;inset:64px 0 auto 0;flex-direction:column;background:var(--bg-2);padding:14px;gap:2px;border-bottom:1px solid var(--panel-brd);transform:translateY(-120%);transition:.35s;max-height:calc(100vh - 64px);overflow:auto}
+/* ---------- header ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:600;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--panel-brd)}
+.nav{display:flex;align-items:center;gap:16px;height:66px}
+.brand{display:flex;align-items:center;gap:12px}
+.route-disc{width:40px;height:40px;border-radius:50%;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:16px;flex:none;box-shadow:0 0 0 3px rgba(0,0,0,.25)}
+.brand b{font-family:'Archivo';font-weight:900;letter-spacing:1.2px;font-size:15px;display:block;line-height:1.1}
+.brand i{color:var(--accent);font-size:10.5px;letter-spacing:3px;font-style:normal;display:block;line-height:1}
+nav.links{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+nav.links button{font-size:12px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;padding:9px 11px;border-radius:9px;color:var(--ink-soft);background:none;border:0;cursor:pointer;transition:.2s;white-space:nowrap}
+nav.links button:hover{color:var(--ink);background:var(--panel)}
+nav.links button[aria-current="true"]{color:#141414;background:var(--accent)}
+.nav-clock{font-family:'Archivo';font-weight:800;font-size:13px;color:var(--accent);letter-spacing:1px;flex:none}
+.burger{display:none;margin-left:auto;background:none;border:1px solid var(--panel-brd);color:var(--ink);width:44px;height:40px;border-radius:10px;font-size:18px;cursor:pointer}
+@media(max-width:1040px){
+  nav.links{position:fixed;inset:66px 0 auto 0;flex-direction:column;background:var(--bg-2);padding:12px;gap:2px;border-bottom:1px solid var(--panel-brd);transform:translateY(-130%);transition:transform .35s cubic-bezier(.2,.8,.2,1);max-height:calc(100vh - 66px);overflow:auto;box-shadow:var(--shadow)}
   nav.links.open{transform:translateY(0)}
-  nav.links a{padding:13px 14px;font-size:14px}
+  nav.links button{padding:14px;font-size:14px;text-align:left;width:100%}
   .burger{display:block}.nav-clock{display:none}
 }
 
-.weather{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;gap:6px;background:color-mix(in srgb,var(--bg-2) 88%,transparent);border:1px solid var(--panel-brd);border-radius:14px;padding:10px;box-shadow:var(--shadow)}
-.weather small{font-size:9px;letter-spacing:2px;color:var(--ink-dim);text-align:center;text-transform:uppercase}
-.weather .row{display:flex;gap:6px}
-.weather button{width:40px;height:40px;border-radius:10px;cursor:pointer;font-size:18px;border:1px solid var(--panel-brd);background:var(--panel);color:var(--ink);transition:.2s}
-.weather button:hover{transform:translateY(-2px)}
-.weather button[aria-pressed="true"]{background:var(--accent);color:#1a1a1a;border-color:var(--accent)}
-@media(max-width:760px){.weather{right:10px;bottom:10px;padding:8px}.weather button{width:34px;height:34px;font-size:15px}}
+/* ---------- weather switcher (lives inside the bottom bar) ---------- */
+.weather{display:flex;align-items:center;gap:6px;flex:none}
+.weather small{font-size:8.5px;letter-spacing:2px;color:var(--ink-dim);text-transform:uppercase;font-weight:800}
+.weather .row{display:flex;gap:5px}
+.weather button{width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:14px;border:1px solid var(--panel-brd);background:var(--panel);color:var(--ink);transition:.2s;line-height:1;padding:0;display:grid;place-items:center}
+.weather button:hover{transform:translateY(-2px);border-color:var(--accent)}
+.weather button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent)}
+@media(max-width:860px){.weather small{display:none}}
+@media(max-width:600px){.weather button{width:28px;height:28px;font-size:12px}.weather .row{gap:4px}}
 
-section{position:relative;z-index:2;padding:96px 0 84px}
-.route-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-dim)}
-.route-badge .disc{width:30px;height:30px;border-radius:50%;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:13px}
-.district{font-family:'Archivo';font-weight:900;letter-spacing:4px;font-size:12px;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
-.district em{color:var(--ink-dim);font-style:normal;font-weight:600;letter-spacing:1px}
-h2.sec{font-family:'Anton';font-size:clamp(34px,6vw,64px);line-height:.95;margin-bottom:18px;text-transform:uppercase}
-.lead{color:var(--ink-soft);max-width:62ch;font-size:16.5px}
+/* ---------- stop progress rail ---------- */
+.progress{position:fixed;left:18px;top:50%;transform:translateY(-50%);z-index:610;display:flex;flex-direction:column;gap:0;align-items:center}
+.progress .seg{width:3px;height:26px;background:var(--rail)}
+.progress .dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--rail);background:var(--bg);cursor:pointer;transition:.25s;position:relative;padding:0}
+.progress .dot:hover{border-color:var(--accent);transform:scale(1.25)}
+.progress .dot[aria-current="true"]{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px rgba(228,178,62,.16)}
+.progress .dot span{position:absolute;left:24px;top:50%;transform:translateY(-50%);white-space:nowrap;font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-dim);opacity:0;pointer-events:none;transition:.25s;background:var(--bg-2);padding:4px 9px;border-radius:6px;border:1px solid var(--panel-brd)}
+.progress .dot:hover span,.progress .dot[aria-current="true"] span{opacity:1}
+@media(max-width:1240px){.progress{display:none}}
 
-#home{padding-top:128px;min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,var(--sky-top),var(--sky-bot))}
-.hero{display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center;width:100%}
-@media(max-width:860px){.hero{grid-template-columns:1fr;gap:26px}}
-.player-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
-.player-tag::before{content:"●";color:var(--signal-red);animation:blink 1.4s infinite}
+/* ---------- stops ---------- */
+main{position:relative;z-index:2}
+.stop{display:none;padding:108px 0 132px;min-height:100vh}
+.stop.active{display:block;animation:stopIn .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes stopIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.district{font-family:'Archivo';font-weight:900;letter-spacing:4px;font-size:11.5px;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
+.district em{color:var(--ink-dim);font-style:normal;font-weight:600;letter-spacing:1.2px}
+.route-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;font-family:'Archivo';font-weight:800;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-dim)}
+.route-badge .disc{width:31px;height:31px;border-radius:50%;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:13px}
+h2.sec{font-family:'Anton';font-size:clamp(34px,6vw,66px);line-height:.94;margin-bottom:18px;text-transform:uppercase}
+.lead{color:var(--ink-soft);max-width:66ch;font-size:16.5px}
+
+/* ---------- hero ---------- */
+#stop-0{background:linear-gradient(180deg,var(--sky-top),var(--sky-bot));margin-top:0}
+.hero{display:grid;grid-template-columns:1.25fr .9fr;gap:42px;align-items:center}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:28px}}
+.player-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Archivo';font-weight:800;font-size:11.5px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:16px}
+.player-tag::before{content:"\25CF";color:var(--signal-red);animation:blink 1.4s infinite}
 @keyframes blink{50%{opacity:.25}}
-.hero h1{font-family:'Anton';font-size:clamp(46px,10vw,104px);line-height:.86;text-transform:uppercase;margin-bottom:6px}
-.hero h1 .l2{color:var(--accent)}
-.blind{display:inline-block;background:#0a0a0a;color:var(--tram-gold);font-family:'Anton';letter-spacing:4px;padding:6px 16px;border-radius:6px;border:2px solid var(--tram-gold);font-size:clamp(17px,3.2vw,28px);margin:14px 0 20px;overflow:hidden;height:1.5em;position:relative;min-width:300px;text-align:center}
-.blind .roll{display:block;animation:roll 9s infinite}
+h1.name{font-family:'Anton';font-size:clamp(46px,10vw,108px);line-height:.85;text-transform:uppercase;margin-bottom:4px}
+h1.name .l2{color:var(--accent)}
+.blind{display:inline-block;background:#080808;color:var(--tram-gold);font-family:'Anton';letter-spacing:4px;padding:6px 18px;border-radius:5px;border:2px solid var(--tram-gold);font-size:clamp(16px,3vw,27px);margin:14px 0 20px;overflow:hidden;height:calc(1.5em + 12px);min-width:min(330px,88vw);text-align:center;box-shadow:inset 0 0 22px rgba(0,0,0,.8)}
+.blind .roll{display:block;animation:roll 10s infinite}
 .blind .roll span{display:block;height:1.5em;line-height:1.5em}
-@keyframes roll{0%,18%{transform:translateY(0)}22%,40%{transform:translateY(-1.5em)}44%,62%{transform:translateY(-3em)}66%,84%{transform:translateY(-4.5em)}88%,100%{transform:translateY(0)}}
-.hero p.intro{color:var(--ink-soft);font-size:17px;max-width:54ch;margin-bottom:26px}
+@keyframes roll{0%,16%{transform:translateY(0)}20%,36%{transform:translateY(-1.5em)}40%,56%{transform:translateY(-3em)}60%,76%{transform:translateY(-4.5em)}80%,96%{transform:translateY(-6em)}100%{transform:translateY(-7.5em)}}
+.intro{color:var(--ink-soft);font-size:17px;max-width:56ch;margin-bottom:26px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
-.btn{font-family:'Archivo';font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 22px;border-radius:11px;border:2px solid var(--accent);cursor:pointer;transition:.2s;background:var(--accent);color:#1a1a1a}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.btn{font-family:'Archivo';font-weight:800;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;padding:14px 22px;border-radius:12px;border:2px solid var(--accent);cursor:pointer;transition:.2s;background:var(--accent);color:#141414;display:inline-block}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
 .btn.ghost{background:transparent;color:var(--ink);border-color:var(--panel-brd)}
 .btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* departures board */
 .board{background:var(--bluestone);border:1px solid var(--panel-brd);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
-.board .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-family:'Archivo';font-weight:800;font-size:11px;letter-spacing:2px;color:var(--tram-gold);text-transform:uppercase}
+.board .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-family:'Archivo';font-weight:800;font-size:10.5px;letter-spacing:2px;color:var(--tram-gold);text-transform:uppercase}
 .board .hd .live{display:flex;align-items:center;gap:6px;color:#7fd389}
 .board .hd .live::before{content:"";width:8px;height:8px;border-radius:50%;background:#7fd389;animation:blink 1.4s infinite}
-.depart{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}
-.depart:last-child{border:0}
+.depart{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08);width:100%;background:none;border-left:0;border-right:0;border-top:0;cursor:pointer;text-align:left;color:var(--ink);transition:.2s}
+.depart:last-child{border-bottom:0}
+.depart:hover{transform:translateX(5px)}
 .depart .num{width:34px;height:34px;border-radius:50%;flex:none;background:var(--tram-green);color:var(--tram-cream);border:2px solid var(--tram-gold);display:grid;place-items:center;font-family:'Anton';font-size:13px}
 .depart .dest{flex:1;font-weight:600;font-size:14px}
 .depart .dest small{display:block;color:var(--ink-dim);font-size:11px;font-weight:500}
-.depart .min{font-family:'Archivo';font-weight:900;color:var(--tram-gold);font-size:15px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
-@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-.stat{background:linear-gradient(135deg,var(--tram-green),var(--tram-green-2));border:1px solid var(--tram-gold);border-radius:14px;padding:18px;position:relative;overflow:hidden}
-.stat::after{content:"";position:absolute;right:-20px;top:-20px;width:70px;height:70px;border-radius:50%;background:rgba(228,178,62,.18)}
-.stat b{font-family:'Anton';font-size:30px;color:var(--tram-cream);display:block;line-height:1}
-.stat span{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tram-gold);font-weight:700}
+.depart .min{font-family:'Archivo';font-weight:900;color:var(--tram-gold);font-size:14px}
 
-.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:34px;align-items:start}
-@media(max-width:820px){.about-grid{grid-template-columns:1fr}}
-.about-grid p{color:var(--ink-soft);margin-bottom:16px;font-size:16px}
-.facts{background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:22px}
-.facts h3{font-family:'Archivo';font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:13px;color:var(--accent);margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+@media(max-width:780px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:linear-gradient(135deg,var(--tram-green),var(--tram-green-2));border:1px solid var(--tram-gold);border-radius:15px;padding:18px;position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;right:-22px;top:-22px;width:72px;height:72px;border-radius:50%;background:rgba(228,178,62,.18)}
+.stat b{font-family:'Anton';font-size:clamp(24px,4vw,32px);color:var(--tram-cream);display:block;line-height:1}
+.stat span{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--tram-gold);font-weight:800}
+
+/* ---------- generic cards / grids ---------- */
+.grid2{display:grid;grid-template-columns:1.35fr 1fr;gap:34px;align-items:start}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:22px}
+.card h3{font-family:'Archivo';font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:12.5px;color:var(--accent);margin-bottom:14px}
+.card p{color:var(--ink-soft);font-size:15px}
+.prose p{color:var(--ink-soft);margin-bottom:16px;font-size:16.2px}
 .facts li{list-style:none;display:flex;gap:10px;padding:9px 0;border-bottom:1px dashed var(--panel-brd);font-size:14.5px}
 .facts li:last-child{border:0}
-.facts li::before{content:"▸";color:var(--accent)}
-
-.skill-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-@media(max-width:760px){.skill-cols{grid-template-columns:1fr}}
-.skill-card{background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:22px}
-.skill-card h3{font-family:'Archivo';font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:13px;color:var(--accent);margin-bottom:16px}
+.facts li::before{content:"\25B8";color:var(--accent);flex:none}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;background:var(--panel);border:1px solid var(--panel-brd)}
-.chip:hover{border-color:var(--accent);color:var(--accent)}
-.bars{margin-top:22px;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:24px}
-.bars h3{font-family:'Archivo';font-weight:800;text-transform:uppercase;font-size:13px;letter-spacing:1px;margin-bottom:4px}
-.bars .sub{color:var(--ink-dim);font-size:13px;margin-bottom:18px}
-.bar{margin-bottom:14px}
-.bar .t{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px}
-.bar .track{height:12px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
-.bar .fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--tram-green-2),var(--tram-gold));width:0;transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.chip{font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:999px;background:var(--panel);border:1px solid var(--panel-brd);transition:.2s}
+.chip:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.cols4{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:760px){.cols4{grid-template-columns:1fr}}
 
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.filters button{font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:9px 15px;border-radius:999px;border:1px solid var(--panel-brd);background:var(--panel);color:var(--ink-soft);cursor:pointer;transition:.2s}
-.filters button[aria-pressed="true"],.filters button:hover{background:var(--accent);color:#1a1a1a;border-color:var(--accent)}
+/* Melbourne flavour strip — appears on every stop */
+.mel{margin-top:40px;padding-top:26px;border-top:1px dashed var(--panel-brd)}
+.mel .lbl{font-family:'Archivo';font-weight:900;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-dim);margin-bottom:14px}
+.mel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:860px){.mel-grid{grid-template-columns:1fr}}
+.mel-card{background:var(--panel);border:1px solid var(--panel-brd);border-radius:13px;padding:16px;transition:.25s}
+.mel-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.mel-card b{display:block;font-size:13.5px;font-weight:700;margin-bottom:5px}
+.mel-card span{font-size:12.8px;color:var(--ink-dim);line-height:1.5;display:block}
+.mel-card .ico{font-size:19px;display:block;margin-bottom:8px}
+
+/* ---------- laneway / street art treatment ---------- */
+.laneway{background:
+   linear-gradient(180deg,rgba(10,14,12,.86),rgba(10,14,12,.92)),
+   repeating-linear-gradient(90deg,#2a2622 0 58px,#211e1b 58px 60px),
+   repeating-linear-gradient(0deg,#262220 0 28px,#1e1b19 28px 30px);
+  border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:26px;position:relative;overflow:hidden}
+.laneway::before{content:"";position:absolute;inset:0;background:
+   radial-gradient(circle at 12% 18%,rgba(226,69,127,.26),transparent 42%),
+   radial-gradient(circle at 86% 28%,rgba(47,184,168,.22),transparent 44%),
+   radial-gradient(circle at 46% 88%,rgba(130,87,199,.22),transparent 46%);pointer-events:none}
+.laneway>*{position:relative}
+.tag-art{font-family:'Permanent Marker',cursive;font-size:clamp(26px,5.2vw,46px);line-height:1.06;margin-bottom:14px;
+  background:linear-gradient(92deg,var(--spray-pink),var(--spray-teal) 54%,var(--tram-gold));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.6))}
+.stencil{font-family:'Archivo';font-weight:900;text-transform:uppercase;letter-spacing:2px;font-size:11px;color:var(--spray-teal)}
+
+/* ---------- projects ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 22px}
+.filters button{font-family:'Archivo';font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;padding:9px 15px;border-radius:999px;border:1px solid var(--panel-brd);background:var(--panel);color:var(--ink-soft);cursor:pointer;transition:.2s}
+.filters button[aria-pressed="true"],.filters button:hover{background:var(--accent);color:#141414;border-color:var(--accent)}
 .proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:900px){.proj-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.proj-grid{grid-template-columns:1fr}}
-.proj{background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:12px;transition:.25s;position:relative}
-.proj:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:var(--shadow)}
-.proj .tag{align-self:flex-start;font-family:'Archivo';font-weight:800;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tram-gold);background:rgba(228,178,62,.12);padding:4px 10px;border-radius:999px}
-.proj h3{font-size:17px;font-weight:700;line-height:1.25}
-.proj p{color:var(--ink-soft);font-size:14px;flex:1}
+@media(max-width:980px){.proj-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.proj-grid{grid-template-columns:1fr}}
+.proj{background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:11px;transition:.25s}
+.proj:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:var(--shadow)}
+.proj .tag{align-self:flex-start;font-family:'Archivo';font-weight:800;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--tram-gold);background:rgba(228,178,62,.13);padding:4px 10px;border-radius:999px}
+.proj h3{font-size:16.5px;font-weight:700;line-height:1.26}
+.proj p{color:var(--ink-soft);font-size:13.8px;flex:1}
 .proj .tools{display:flex;flex-wrap:wrap;gap:6px}
-.proj .tools span{font-size:11px;padding:3px 9px;border-radius:999px;background:var(--panel);border:1px solid var(--panel-brd);color:var(--ink-soft)}
-.proj a.open{font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-top:4px}
-.proj a.open:hover{text-decoration:underline}
-.proj.more{align-items:center;justify-content:center;text-align:center;border-style:dashed}
-.proj.more a{font-family:'Archivo';font-weight:800;letter-spacing:1px;text-transform:uppercase;font-size:13px;color:var(--accent)}
+.proj .tools span{font-size:10.5px;padding:3px 9px;border-radius:999px;background:var(--panel);border:1px solid var(--panel-brd);color:var(--ink-soft)}
+.proj .open{font-family:'Archivo';font-weight:800;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-top:2px}
+.proj .open:hover{text-decoration:underline}
 
-.timeline{position:relative;margin-left:22px;padding-left:34px;border-left:3px solid var(--rail)}
+/* ---------- timeline ---------- */
+.timeline{position:relative;margin-left:24px;padding-left:34px;border-left:3px solid var(--rail)}
 .tl-item{position:relative;padding:4px 0 30px}
-.tl-item::before{content:"";position:absolute;left:-46px;top:4px;width:22px;height:22px;border-radius:50%;background:var(--tram-green);border:3px solid var(--tram-gold)}
-.tl-item .when{font-family:'Archivo';font-weight:800;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
-.tl-item h3{font-size:17px;font-weight:700;margin:3px 0 6px}
-.tl-item p{color:var(--ink-soft);font-size:14.5px;max-width:66ch}
+.tl-item::before{content:"";position:absolute;left:-46px;top:5px;width:22px;height:22px;border-radius:50%;background:var(--tram-green);border:3px solid var(--tram-gold)}
+.tl-item .when{font-family:'Archivo';font-weight:800;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+.tl-item h3{font-size:16.5px;font-weight:700;margin:3px 0 6px}
+.tl-item p{color:var(--ink-soft);font-size:14.4px;max-width:68ch}
 
+/* ---------- achievements / sports ---------- */
 .ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-@media(max-width:700px){.ach-grid{grid-template-columns:1fr}}
-.ach{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:18px}
-.ach .medal{font-size:22px;flex:none}
-.ach b{display:block;font-size:14.5px;line-height:1.4;font-weight:600}
+@media(max-width:760px){.ach-grid{grid-template-columns:1fr}}
+.ach{display:flex;gap:14px;align-items:flex-start;background:var(--card);border:1px solid var(--panel-brd);border-radius:var(--radius);padding:17px;transition:.25s}
+.ach:hover{border-color:var(--accent);transform:translateY(-3px)}
+.ach .medal{font-size:21px;flex:none;line-height:1.2}
+.ach b{display:block;font-size:14.3px;line-height:1.45;font-weight:600}
+.fixture{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+@media(max-width:860px){.fixture{grid-template-columns:repeat(2,1fr)}}
+.fx{background:linear-gradient(160deg,var(--bluestone),var(--bluestone-2));border:1px solid var(--panel-brd);border-radius:14px;padding:15px;text-align:center}
+.fx b{display:block;font-family:'Anton';font-size:15px;color:var(--tram-gold);letter-spacing:.5px;margin-bottom:3px}
+.fx span{font-size:11.5px;color:var(--ink-dim);display:block;line-height:1.45}
 
-#contact{background:linear-gradient(180deg,var(--bg),var(--sky-bot))}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
-@media(max-width:820px){.contact-grid{grid-template-columns:1fr}}
-.contact-links{display:flex;flex-direction:column;gap:12px;margin-top:8px}
-.contact-links a,.copybtn{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--panel-brd);border-radius:12px;padding:14px 16px;font-weight:600;font-size:14.5px;transition:.2s;cursor:pointer;color:var(--ink);text-align:left;width:100%}
-.contact-links a:hover,.copybtn:hover{border-color:var(--accent);transform:translateX(4px)}
+/* ---------- contact ---------- */
+.contact-links{display:flex;flex-direction:column;gap:11px;margin-top:10px}
+.contact-links a,.copybtn{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--panel-brd);border-radius:12px;padding:14px 16px;font-weight:600;font-size:14.3px;transition:.2s;cursor:pointer;color:var(--ink);text-align:left;width:100%}
+.contact-links a:hover,.copybtn:hover{border-color:var(--accent);transform:translateX(5px)}
 .contact-links .ic{width:34px;height:34px;flex:none;border-radius:9px;background:var(--panel);display:grid;place-items:center;font-size:15px;font-weight:800}
-form.msg{display:flex;flex-direction:column;gap:12px}
-form.msg input,form.msg textarea{background:var(--card);border:1px solid var(--panel-brd);border-radius:11px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:14.5px}
+form.msg{display:flex;flex-direction:column;gap:11px}
+form.msg input,form.msg textarea{background:var(--card);border:1px solid var(--panel-brd);border-radius:11px;padding:13px 15px;color:var(--ink);font-family:inherit;font-size:14.3px;width:100%}
 form.msg input:focus,form.msg textarea:focus{outline:2px solid var(--accent);border-color:transparent}
-form.msg textarea{min-height:120px;resize:vertical}
+form.msg textarea{min-height:118px;resize:vertical}
 
-footer{position:relative;z-index:2;text-align:center;padding:30px 20px 110px;border-top:1px solid var(--panel-brd);color:var(--ink-dim);font-size:13px}
-footer b{color:var(--accent)}
-.ticker{overflow:hidden;white-space:nowrap;border-top:1px solid var(--panel-brd);border-bottom:1px solid var(--panel-brd);background:var(--bluestone);padding:9px 0;position:relative;z-index:2}
-.ticker .run{display:inline-block;animation:marq 26s linear infinite;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--tram-gold)}
+/* ---------- stop navigation (prev / next) ---------- */
+.stopnav{position:fixed;left:0;right:0;bottom:0;z-index:640;background:color-mix(in srgb,var(--bg-2) 94%,transparent);border-top:1px solid var(--panel-brd);backdrop-filter:blur(12px)}
+.stopnav .inner{max-width:var(--maxw);margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:14px}
+.stopnav button{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--panel-brd);color:var(--ink);padding:10px 16px;border-radius:11px;cursor:pointer;font-weight:700;font-size:12.5px;letter-spacing:.6px;transition:.2s}
+.stopnav button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.stopnav button:disabled{opacity:.33;cursor:not-allowed}
+.stopnav .mid{flex:1;text-align:center;font-family:'Archivo';font-weight:800;font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink-dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stopnav .next{background:var(--accent);color:#141414;border-color:var(--accent)}
+.stopnav .next:hover:not(:disabled){color:#141414;filter:brightness(1.08)}
+@media(max-width:600px){.stopnav .inner{padding:9px 10px;gap:7px}.stopnav .mid{display:none}.stopnav button{padding:9px 12px;font-size:11.5px}.stopnav .lbl-txt{display:none}}
+
+/* ---------- THE TRAM TRANSITION ---------- */
+#tram-stage{position:fixed;inset:0;z-index:900;pointer-events:none;opacity:0;visibility:hidden}
+#tram-stage.running{opacity:1;visibility:visible}
+.tram-bg{position:absolute;inset:0;background:linear-gradient(180deg,#07100c 0%,#0c1a13 55%,#060b08 100%);opacity:0;transition:opacity .34s ease}
+#tram-stage.running .tram-bg{opacity:1}
+/* overhead wire + poles in the transition scene */
+.scene-wire{position:absolute;top:17%;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,rgba(228,178,62,.75),rgba(228,178,62,.75),transparent)}
+.scene-rails{position:absolute;bottom:22%;left:0;right:0;height:3px;background:rgba(244,232,201,.32);box-shadow:0 16px 0 rgba(244,232,201,.22)}
+.sleepers{position:absolute;bottom:calc(22% - 15px);left:0;right:0;height:16px;background:repeating-linear-gradient(90deg,rgba(244,232,201,.2) 0 10px,transparent 10px 46px)}
+/* speed streaks */
+.streaks{position:absolute;inset:0;opacity:0}
+#tram-stage.running .streaks{opacity:1}
+.streaks i{position:absolute;height:2px;background:linear-gradient(90deg,transparent,rgba(244,232,201,.5),transparent);border-radius:2px;animation:streak .55s linear infinite}
+@keyframes streak{from{transform:translateX(42vw) scaleX(.5);opacity:0}30%{opacity:1}to{transform:translateX(-120vw) scaleX(1.5);opacity:0}}
+/* the tram itself */
+.tram-car{position:absolute;bottom:19%;left:0;width:min(1500px,185vw);transform:translateX(118vw);will-change:transform}
+#tram-stage.running .tram-car{animation:tramPass 2.15s cubic-bezier(.42,0,.28,1) forwards}
+@keyframes tramPass{0%{transform:translateX(118vw)}46%{transform:translateX(-6vw)}54%{transform:translateX(-14vw)}100%{transform:translateX(-200vw)}}
+.wheel-spin{animation:spin .42s linear infinite;transform-origin:center;transform-box:fill-box}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* destination readout on the blind */
+#tram-dest{font-family:'Anton';font-size:30px;letter-spacing:3px;fill:#e4b23e}
+#tram-route{font-family:'Anton';font-size:40px;fill:#f4e8c9}
+/* "now arriving" caption */
+.arriving{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;opacity:0}
+#tram-stage.running .arriving{animation:arrive 2.15s ease forwards}
+@keyframes arrive{0%,52%{opacity:0}66%{opacity:1}88%{opacity:1}100%{opacity:0}}
+.arriving .kicker{font-family:'Archivo';font-weight:900;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--tram-gold);margin-bottom:8px}
+.arriving .where{font-family:'Anton';font-size:clamp(30px,7vw,64px);text-transform:uppercase;color:#f6eccf;line-height:1}
+/* ding */
+.ding{position:absolute;left:50%;top:26%;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:clamp(20px,4vw,34px);color:var(--tram-gold);opacity:0}
+#tram-stage.running .ding{animation:dingPop 2.15s ease forwards}
+@keyframes dingPop{0%,40%{opacity:0;transform:translateX(-50%) scale(.6)}50%{opacity:1;transform:translateX(-50%) scale(1.12)}62%{opacity:0;transform:translateX(-50%) scale(1.3)}100%{opacity:0}}
+
+/* ---------- ticker + footer ---------- */
+.ticker{overflow:hidden;white-space:nowrap;border-top:1px solid var(--panel-brd);border-bottom:1px solid var(--panel-brd);background:var(--bluestone);padding:9px 0;position:relative;z-index:2;margin-top:34px}
+.ticker .run{display:inline-block;animation:marq 30s linear infinite;font-family:'Archivo';font-weight:800;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--tram-gold)}
 .ticker .run span{margin:0 26px}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+footer{position:relative;z-index:2;text-align:center;padding:26px 20px 96px;border-top:1px solid var(--panel-brd);color:var(--ink-dim);font-size:12.8px}
+footer b{color:var(--accent)}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
 [hidden]{display:none!important}
 </style>
 </head>
 <body>
-<a class="skip" href="#home">Skip to content</a>
-<div class="tracks" aria-hidden="true"></div>
-<div class="overhead" aria-hidden="true"></div>
+<a class="skip" href="#main">Skip to content</a>
+<div class="rails" aria-hidden="true"></div>
+<div class="wire" aria-hidden="true"></div>
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="#home">
+    <a class="brand" href="#" data-goto="0">
       <span class="route-disc">35</span>
-      <span><b>JAY DESHMUKH</b><span>MELBOURNE · DATA</span></span>
+      <span><b>JAY DESHMUKH</b><i>MELBOURNE &middot; DATA</i></span>
     </a>
-    <button class="burger" aria-label="Menu" aria-expanded="false">☰</button>
-    <nav class="links" id="menu">
-      <a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a>
-      <a href="#projects">Projects</a><a href="#exp">Experience</a><a href="#ach">Awards</a><a href="#contact">Contact</a>
-    </nav>
-    <span class="nav-clock" id="clock">10:34</span>
+    <button class="burger" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+    <nav class="links" id="menu" aria-label="Stops"></nav>
+    <span class="nav-clock" id="clock">--:--</span>
   </div>
 </header>
 
-<div class="weather" role="group" aria-label="Choose Melbourne weather theme">
-  <small>Weather</small>
-  <div class="row">
-    <button data-w="morning" title="Crisp morning" aria-pressed="false">🌅</button>
-    <button data-w="sunny" title="Sunny" aria-pressed="true">☀️</button>
+
+<div class="progress" id="progress" aria-label="Route progress"></div>
+
+<!-- ======================= THE TRAM TRANSITION ======================= -->
+<div id="tram-stage" aria-hidden="true">
+  <div class="tram-bg"></div>
+  <div class="scene-wire"></div>
+  <div class="streaks">
+    <i style="top:30%;left:0;width:30vw;animation-delay:0s"></i>
+    <i style="top:41%;left:0;width:22vw;animation-delay:.12s"></i>
+    <i style="top:56%;left:0;width:34vw;animation-delay:.06s"></i>
+    <i style="top:67%;left:0;width:26vw;animation-delay:.19s"></i>
+    <i style="top:74%;left:0;width:18vw;animation-delay:.3s"></i>
   </div>
-  <div class="row">
-    <button data-w="overcast" title="Overcast" aria-pressed="false">☁️</button>
-    <button data-w="rainy" title="Rainy night" aria-pressed="false">🌧️</button>
+  <div class="scene-rails"></div>
+  <div class="sleepers"></div>
+
+  <div class="ding">ding&nbsp;ding!</div>
+
+  <div class="tram-car">
+    <svg viewBox="0 0 1500 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Melbourne W-class tram">
+      <defs>
+        <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#176b40"/><stop offset="45%" stop-color="#13623c"/><stop offset="100%" stop-color="#0a3a24"/>
+        </linearGradient>
+        <linearGradient id="winG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffe9b0"/><stop offset="100%" stop-color="#f0c46a"/>
+        </linearGradient>
+        <radialGradient id="lampG"><stop offset="0%" stop-color="#fff6d8"/><stop offset="70%" stop-color="#e4b23e"/><stop offset="100%" stop-color="rgba(228,178,62,0)"/></radialGradient>
+      </defs>
+
+      <!-- pantograph to the wire -->
+      <g stroke="#cdbf9f" stroke-width="5" fill="none" stroke-linecap="round">
+        <path d="M620 62 L560 8"/><path d="M620 62 L690 8"/><path d="M540 8 L710 8"/>
+      </g>
+      <!-- roof -->
+      <rect x="70" y="52" width="1364" height="24" rx="12" fill="#0a3a24"/>
+      <!-- body -->
+      <rect x="56" y="70" width="1392" height="172" rx="26" fill="url(#bodyG)" stroke="#e4b23e" stroke-width="4"/>
+      <!-- cream livery band -->
+      <rect x="56" y="182" width="1392" height="26" fill="#f4e8c9" opacity=".95"/>
+      <rect x="56" y="176" width="1392" height="5" fill="#e4b23e"/>
+      <rect x="56" y="209" width="1392" height="5" fill="#e4b23e"/>
+      <!-- route disc (front) -->
+      <circle cx="132" cy="126" r="40" fill="#0a3a24" stroke="#e4b23e" stroke-width="5"/>
+      <text id="tram-route" x="132" y="141" text-anchor="middle">35</text>
+      <!-- windows, rear of blind -->
+      <g fill="url(#winG)" opacity=".93">
+        <rect x="208" y="96" width="68" height="62" rx="8"/>
+        <rect x="288" y="96" width="68" height="62" rx="8"/>
+        <rect x="368" y="96" width="68" height="62" rx="8"/>
+        <rect x="448" y="96" width="68" height="62" rx="8"/>
+        <rect x="982" y="96" width="68" height="62" rx="8"/>
+        <rect x="1062" y="96" width="68" height="62" rx="8"/>
+        <rect x="1142" y="96" width="68" height="62" rx="8"/>
+        <rect x="1222" y="96" width="68" height="62" rx="8"/>
+        <rect x="1302" y="96" width="68" height="62" rx="8"/>
+      </g>
+      <!-- doors -->
+      <g fill="#0a3a24" stroke="#e4b23e" stroke-width="3">
+        <rect x="530" y="88" width="40" height="150" rx="6"/>
+        <rect x="930" y="88" width="40" height="150" rx="6"/>
+      </g>
+      <!-- destination blind -->
+      <rect x="590" y="94" width="330" height="62" rx="7" fill="#070707" stroke="#e4b23e" stroke-width="3"/>
+      <text id="tram-dest" x="755" y="136" text-anchor="middle">CITY</text>
+      <!-- headlight -->
+      <circle cx="60" cy="150" r="34" fill="url(#lampG)" opacity=".85"/>
+      <circle cx="66" cy="150" r="11" fill="#fff6d8"/>
+      <!-- skirt -->
+      <rect x="96" y="242" width="1308" height="20" rx="7" fill="#07281a"/>
+      <!-- bogies + wheels -->
+      <g>
+        <rect x="236" y="250" width="210" height="16" rx="8" fill="#0a0a0a"/>
+        <rect x="1058" y="250" width="210" height="16" rx="8" fill="#0a0a0a"/>
+        <g class="wheel-spin"><circle cx="286" cy="276" r="30" fill="#141414" stroke="#cdbf9f" stroke-width="5"/><path d="M286 250 V302 M260 276 H312 M268 258 L304 294 M304 258 L268 294" stroke="#8d8268" stroke-width="4"/></g>
+        <g class="wheel-spin"><circle cx="396" cy="276" r="30" fill="#141414" stroke="#cdbf9f" stroke-width="5"/><path d="M396 250 V302 M370 276 H422 M378 258 L414 294 M414 258 L378 294" stroke="#8d8268" stroke-width="4"/></g>
+        <g class="wheel-spin"><circle cx="1108" cy="276" r="30" fill="#141414" stroke="#cdbf9f" stroke-width="5"/><path d="M1108 250 V302 M1082 276 H1134 M1090 258 L1126 294 M1126 258 L1090 294" stroke="#8d8268" stroke-width="4"/></g>
+        <g class="wheel-spin"><circle cx="1218" cy="276" r="30" fill="#141414" stroke="#cdbf9f" stroke-width="5"/><path d="M1218 250 V302 M1192 276 H1244 M1200 258 L1236 294 M1236 258 L1200 294" stroke="#8d8268" stroke-width="4"/></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="arriving">
+    <div class="kicker">Now arriving at</div>
+    <div class="where" id="arriving-name">Flinders Street</div>
   </div>
 </div>
 
-<main>
-<!-- HERO · FLINDERS STREET -->
-<section id="home">
+<main id="main">
+
+<!-- ========== STOP 00 · FLINDERS STREET ========== -->
+<section class="stop active" id="stop-0" data-blind="FLINDERS ST" data-name="Flinders Street" data-short="Start">
   <div class="wrap">
     <div class="hero">
       <div>
-        <span class="player-tag">Player One · Melbourne, VIC</span>
-        <h1 class="display">JAY<br><span class="l2">DESHMUKH</span></h1>
+        <span class="player-tag">Stop 01 &middot; Flinders Street &middot; Melbourne, VIC</span>
+        <h1 class="name">JAY<br><span class="l2">DESHMUKH</span></h1>
         <div class="blind" aria-label="Role">
           <span class="roll">
-            <span>DATA ANALYST</span>
-            <span>BI DEVELOPER</span>
-            <span>POWER BI · SQL</span>
-            <span>DATA → DECISIONS</span>
-            <span>DATA ANALYST</span>
+            <span>DATA ANALYST</span><span>BI DEVELOPER</span><span>POWER BI &middot; DAX</span>
+            <span>SQL &middot; TABLEAU</span><span>BUSINESS ANALYST</span><span>DATA ANALYST</span>
           </span>
         </div>
-        <p class="intro">I turn messy data into clear, decision-ready reporting. Master of International Business (Data Analytics) student at La Trobe — Power BI, SQL &amp; DAX focused, and open to Data Analyst, BI and Business Analyst roles across Melbourne.</p>
+        <p class="intro">I turn messy data into clear, decision-ready reporting. Master of International Business (Data Analytics) at La&nbsp;Trobe, and open to Data Analyst, BI and Business Analyst roles across Melbourne.</p>
+        <p class="intro" style="font-size:14.5px;color:var(--ink-dim);margin-bottom:22px">This portfolio is a tram route. Ride it stop by stop &mdash; or jump straight to the projects.</p>
         <div class="cta">
-          <a class="btn" href="#projects">See my projects</a>
-          <a class="btn ghost" href="#contact">Hire me</a>
+          <button class="btn" data-goto="4">Board the tram &rarr;</button>
+          <button class="btn ghost" data-goto="7">Hire me</button>
           <a class="btn ghost" href="https://github.com/Jaysproject" target="_blank" rel="noopener">GitHub</a>
         </div>
         <div class="stats">
-          <div class="stat"><b>10k+</b><span>Records cleaned</span></div>
+          <div class="stat"><b>7</b><span>Live projects</span></div>
           <div class="stat"><b>41</b><span>DAX measures</span></div>
+          <div class="stat"><b>10k+</b><span>Records cleaned</span></div>
           <div class="stat"><b>1,750+</b><span>Workforce analysed</span></div>
-          <div class="stat"><b>3</b><span>Industry roles</span></div>
         </div>
       </div>
       <div class="board" aria-label="Next departures">
-        <div class="hd"><span>Flinders St · Dep.</span><span class="live">Live</span></div>
-        <div class="depart"><span class="num">01</span><span class="dest">About me<small>Who I am</small></span><span class="min">now</span></div>
-        <div class="depart"><span class="num">02</span><span class="dest">Skills unlocked<small>Power BI · SQL · DAX</small></span><span class="min">1 min</span></div>
-        <div class="depart"><span class="num">03</span><span class="dest">The case files<small>Projects</small></span><span class="min">3 min</span></div>
-        <div class="depart"><span class="num">04</span><span class="dest">Experience<small>Where I've worked</small></span><span class="min">5 min</span></div>
-        <div class="depart"><span class="num">05</span><span class="dest">Awards &amp; wins<small>Certs &amp; highlights</small></span><span class="min">8 min</span></div>
+        <div class="hd"><span>Flinders St &middot; Departures</span><span class="live">Live</span></div>
+        <button class="depart" data-goto="1"><span class="num">02</span><span class="dest">Southbank &amp; the Arts<small>About me</small></span><span class="min">now</span></button>
+        <button class="depart" data-goto="2"><span class="num">03</span><span class="dest">The Laneways<small>Skills &amp; tools</small></span><span class="min">2 min</span></button>
+        <button class="depart" data-goto="3"><span class="num">04</span><span class="dest">Degraves Street<small>How I work</small></span><span class="min">4 min</span></button>
+        <button class="depart" data-goto="4"><span class="num">05</span><span class="dest">Docklands<small>Projects</small></span><span class="min">6 min</span></button>
+        <button class="depart" data-goto="5"><span class="num">06</span><span class="dest">Collins Street<small>Experience</small></span><span class="min">8 min</span></button>
+        <button class="depart" data-goto="6"><span class="num">07</span><span class="dest">The 'G<small>Awards &amp; wins</small></span><span class="min">11 min</span></button>
+        <button class="depart" data-goto="7"><span class="num">08</span><span class="dest">Queen Vic Market<small>Contact</small></span><span class="min">13 min</span></button>
+      </div>
+    </div>
+    <div class="ticker" aria-hidden="true">
+      <div class="run">
+        <span>Route 35 &middot; City Circle &mdash; free tram zone</span><span>Power BI &middot; SQL &middot; DAX &middot; Tableau &middot; Excel</span><span>Open to Data Analyst &amp; BI roles</span><span>Mind the hook turn</span><span>Four seasons in one day</span>
+        <span>Route 35 &middot; City Circle &mdash; free tram zone</span><span>Power BI &middot; SQL &middot; DAX &middot; Tableau &middot; Excel</span><span>Open to Data Analyst &amp; BI roles</span><span>Mind the hook turn</span><span>Four seasons in one day</span>
       </div>
     </div>
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true">
-  <div class="run">
-    <span>Now boarding · Route 35 City Circle</span><span>Power BI · SQL · DAX · Tableau · Excel</span><span>Open to Data Analyst &amp; BI roles</span><span>Melbourne, VIC</span>
-    <span>Now boarding · Route 35 City Circle</span><span>Power BI · SQL · DAX · Tableau · Excel</span><span>Open to Data Analyst &amp; BI roles</span><span>Melbourne, VIC</span>
-  </div>
-</div>
-
-<!-- ABOUT · SOUTHBANK / YARRA -->
-<section id="about">
+<!-- ========== STOP 01 · SOUTHBANK & ARTS PRECINCT ========== -->
+<section class="stop" id="stop-1" data-blind="SOUTHBANK" data-name="Southbank &amp; the Arts Precinct" data-short="About">
   <div class="wrap">
-    <p class="district">Southbank · The Yarra <em>riverside · promenade · arts precinct</em></p>
-    <div class="route-badge"><span class="disc">01</span> Route 01 · About</div>
+    <p class="district">Southbank &middot; The Arts Precinct <em>NGV &middot; Fed Square &middot; the Yarra</em></p>
+    <div class="route-badge"><span class="disc">02</span> Stop 02 &middot; About</div>
     <h2 class="sec">About me</h2>
-    <div class="about-grid">
-      <div>
-        <p>I'm a Master of International Business (Data Analytics major) student at La Trobe University, based in Melbourne. I turn messy, real-world data into clear insights with Power BI, SQL, DAX, Tableau and Excel — from data cleaning and validation through to DAX-driven dashboards and a single source of truth.</p>
-        <p>Most recently I was a Junior Data &amp; Payroll Analyst at Veiramal Consultancy here in Melbourne, building Power BI dashboards and keeping HR data clean and reliable. Before that I worked in product operations and IT project coordination, so I translate business needs into clear specs and explain technical findings to non-technical stakeholders.</p>
-        <p>I combine analytical rigour with strong stakeholder communication to deliver reporting that supports evidence-based decisions — and I reply to every message.</p>
+    <div class="grid2">
+      <div class="prose">
+        <p>I'm a Master of International Business (Data Analytics major) student at La&nbsp;Trobe University, based in Melbourne. I turn messy, real-world data into clear insight with Power&nbsp;BI, SQL, DAX, Tableau and Excel &mdash; from cleaning and validation through to DAX-driven dashboards built on a single source of truth.</p>
+        <p>Most recently I was a Junior Data &amp; Payroll Analyst at Veiramal Consultancy here in Melbourne, building Power&nbsp;BI dashboards and keeping HR data clean and reliable. Before that I worked in product operations and IT project coordination, so I translate business needs into clear specs and explain technical findings to people who don't live in spreadsheets.</p>
+        <p>Melbourne is a city of contrasts &mdash; 19th-century gold-rush façades next to sheer glass towers. Good analysis works the same way: the rigorous structure underneath, something people actually enjoy looking at on top.</p>
       </div>
-      <div class="facts">
+      <div class="card facts">
         <h3>Quick facts</h3>
         <ul>
           <li>Melbourne, Australia</li>
-          <li>La Trobe University · 2025–2026</li>
-          <li>Master of Int'l Business · Data Analytics major</li>
+          <li>La Trobe University &middot; 2025&ndash;2026</li>
+          <li>Master of Int'l Business &middot; Data Analytics major</li>
           <li>Open to Data Analyst / BI / Business Analyst roles</li>
+          <li>I reply to every message</li>
         </ul>
       </div>
     </div>
+    <div class="mel">
+      <div class="lbl">Arts, architecture &amp; history &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#127912;</span><b>National Gallery of Victoria</b><span>Australia's oldest and most-visited public art museum &mdash; and the waterwall everyone touches on the way in.</span></div>
+        <div class="mel-card"><span class="ico">&#127961;&#65039;</span><b>Federation Square</b><span>Fractured, angular, divisive, and now unmistakably Melbourne. Proof that structure can still have a personality.</span></div>
+        <div class="mel-card"><span class="ico">&#127970;</span><b>Gold rush meets glass</b><span>Victorian-era stone and ironwork sitting shoulder to shoulder with modern skyscrapers across the CBD.</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- SKILLS · HODDLE GRID -->
-<section id="skills">
+<!-- ========== STOP 02 · THE LANEWAYS ========== -->
+<section class="stop" id="stop-2" data-blind="THE LANEWAYS" data-name="The Laneways" data-short="Skills">
   <div class="wrap">
-    <p class="district">The Hoddle Grid · CBD <em>laneways · bluestone · coffee</em></p>
-    <div class="route-badge"><span class="disc">02</span> Route 02 · Skills</div>
+    <p class="district">The Laneways <em>Hosier Lane &middot; AC/DC Lane &middot; bluestone &amp; spray paint</em></p>
+    <div class="route-badge"><span class="disc">03</span> Stop 03 &middot; Skills</div>
     <h2 class="sec">Skills unlocked</h2>
-    <div class="skill-cols">
-      <div class="skill-card">
-        <h3>Analysis &amp; BI</h3>
-        <div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Excel (Advanced)</span><span class="chip">Data Modelling</span></div>
-      </div>
-      <div class="skill-card">
-        <h3>Data engineering</h3>
-        <div class="chips"><span class="chip">Data Cleaning</span><span class="chip">Data Validation</span><span class="chip">Star Schema</span><span class="chip">ETL &amp; ELT</span><span class="chip">MS SQL Server</span><span class="chip">MySQL</span></div>
-      </div>
-      <div class="skill-card">
-        <h3>Business analysis</h3>
-        <div class="chips"><span class="chip">Requirements Gathering</span><span class="chip">BRDs &amp; FRDs</span><span class="chip">Use Cases</span><span class="chip">User Flows</span><span class="chip">Test Cases &amp; RCA</span><span class="chip">Manual QA Testing</span></div>
-      </div>
-      <div class="skill-card">
-        <h3>Tools &amp; delivery</h3>
-        <div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">Jira</span><span class="chip">Azure DevOps</span><span class="chip">Notion</span><span class="chip">Trello</span><span class="chip">Miro</span></div>
-      </div>
+    <div class="laneway" style="margin-bottom:22px">
+      <div class="stencil">Hosier Lane &middot; est. whenever someone last picked up a can</div>
+      <div class="tag-art">Every wall gets painted over.<br>Every dashboard gets rebuilt.</div>
+      <p style="color:var(--ink-soft);font-size:15px;max-width:64ch">Melbourne's laneways are never finished &mdash; the murals change constantly, and that's the point. I treat reporting the same way: ship it, watch how people actually use it, then repaint.</p>
     </div>
-    <div class="bars">
-      <h3>Tool proficiency</h3>
-      <p class="sub">Where I spend most of my time, day to day.</p>
-      <div class="bar"><div class="t"><span>Power BI &amp; DAX</span><span>Advanced</span></div><div class="track"><div class="fill" data-w="92"></div></div></div>
-      <div class="bar"><div class="t"><span>SQL &amp; data modelling</span><span>Advanced</span></div><div class="track"><div class="fill" data-w="85"></div></div></div>
-      <div class="bar"><div class="t"><span>Excel</span><span>Advanced</span></div><div class="track"><div class="fill" data-w="88"></div></div></div>
-      <div class="bar"><div class="t"><span>Tableau</span><span>Proficient</span></div><div class="track"><div class="fill" data-w="72"></div></div></div>
+    <div class="cols4">
+      <div class="card"><h3>Analysis &amp; BI</h3><div class="chips"><span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">SQL</span><span class="chip">Tableau</span><span class="chip">Excel (Advanced)</span><span class="chip">Power Query</span></div></div>
+      <div class="card"><h3>Data engineering</h3><div class="chips"><span class="chip">Data Cleaning</span><span class="chip">Data Validation</span><span class="chip">Star Schema</span><span class="chip">ETL &amp; ELT</span><span class="chip">MS SQL Server</span><span class="chip">MySQL</span></div></div>
+      <div class="card"><h3>Business analysis</h3><div class="chips"><span class="chip">Requirements Gathering</span><span class="chip">BRDs &amp; FRDs</span><span class="chip">Use Cases</span><span class="chip">User Flows</span><span class="chip">Test Cases &amp; RCA</span><span class="chip">Manual QA Testing</span></div></div>
+      <div class="card"><h3>Tools &amp; delivery</h3><div class="chips"><span class="chip">Git &amp; GitHub</span><span class="chip">Jira</span><span class="chip">Azure DevOps</span><span class="chip">Notion</span><span class="chip">Trello</span><span class="chip">Miro</span></div></div>
+    </div>
+    <div class="mel">
+      <div class="lbl">Laneways &amp; street art &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#127912;</span><b>Hosier Lane</b><span>The city's best-known open-air gallery. Bluestone underfoot, a new mural every few weeks.</span></div>
+        <div class="mel-card"><span class="ico">&#127928;</span><b>AC/DC Lane</b><span>Named for the band, covered in paint, and home to some of the best small bars in the CBD.</span></div>
+        <div class="mel-card"><span class="ico">&#127864;</span><b>Hidden bars &amp; rooftops</b><span>Half of Melbourne's best venues have no sign on the door. You just have to know the lane.</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS · DOCKLANDS -->
-<section id="projects">
+<!-- ========== STOP 03 · DEGRAVES STREET (COFFEE) ========== -->
+<section class="stop" id="stop-3" data-blind="DEGRAVES ST" data-name="Degraves Street" data-short="Process">
   <div class="wrap">
-    <p class="district">Docklands · The Port <em>cranes · container labs · dashboards</em></p>
-    <div class="route-badge"><span class="disc">03</span> Route 03 · The Case Files</div>
+    <p class="district">Degraves Street <em>espresso &middot; roasters &middot; brunch</em></p>
+    <div class="route-badge"><span class="disc">04</span> Stop 04 &middot; How I work</div>
+    <h2 class="sec">Fuelled by<br>flat whites</h2>
+    <p class="lead">Melbourne has more cafés per head than almost anywhere on earth, and a genuinely serious opinion about espresso. Here's the five-shot process I run on every piece of analysis.</p>
+    <div class="cols4" style="margin-top:26px">
+      <div class="card"><h3>01 &middot; Scope the question</h3><p>Before a single query, I pin down what decision this is actually for. Requirements gathering, a short BRD, and agreed success criteria &mdash; so nobody builds the wrong dashboard beautifully.</p></div>
+      <div class="card"><h3>02 &middot; Clean &amp; validate</h3><p>The unglamorous part that decides everything. Mixed date formats, duplicates, inconsistent casing, orphan keys. On the NovusEnergy build that meant 10,000+ records across 10 tables and 12 documented data-quality fixes.</p></div>
+      <div class="card"><h3>03 &middot; Model it properly</h3><p>Star schema, surrogate keys, clean relationships. A Medallion layout (bronze &rarr; silver &rarr; gold) when the source data is messy enough to deserve one.</p></div>
+      <div class="card"><h3>04 &middot; Measure &amp; stress-test</h3><p>DAX measures written to be read by humans, then checked against the live model &mdash; rolling 12-month turnover, size-adjusted pay gap, and anything else that would embarrass me in a meeting if it were wrong.</p></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>05 &middot; Tell the story</h3><p>A number nobody understands changes nothing. I finish by writing the finding in plain language, showing the one chart that proves it, and saying what I'd do next. That's the part stakeholders actually remember.</p></div>
+    <div class="mel">
+      <div class="lbl">Coffee culture &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#9749;</span><b>The espresso obsession</b><span>A world-renowned coffee scene built on flat whites, independent roasters and baristas who take it personally.</span></div>
+        <div class="mel-card"><span class="ico">&#127859;</span><b>Brunch culture</b><span>Weekend queues down the footpath in Fitzroy, Carlton and South Yarra. Worth it, every time.</span></div>
+        <div class="mel-card"><span class="ico">&#127861;</span><b>Lygon Street</b><span>Melbourne's Little Italy, and the reason this city learned to care about coffee in the first place.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STOP 04 · DOCKLANDS (PROJECTS) ========== -->
+<section class="stop" id="stop-4" data-blind="DOCKLANDS" data-name="Docklands" data-short="Projects">
+  <div class="wrap">
+    <p class="district">Docklands &middot; The Port <em>cranes &middot; container yards &middot; dashboards</em></p>
+    <div class="route-badge"><span class="disc">05</span> Stop 05 &middot; The case files</div>
     <h2 class="sec">Projects</h2>
-    <p class="lead">Real analysis, documented outcomes, and the tools used to get there. Filter the case files, or open the full library on GitHub.</p>
+    <p class="lead">Every project here is a live repository on my GitHub. Filter by tool, or open any one to see the data, the model and the write-up.</p>
     <div class="filters" role="group" aria-label="Filter projects">
       <button data-f="all" aria-pressed="true">All</button>
-      <button data-f="SQL" aria-pressed="false">SQL</button>
       <button data-f="Power BI" aria-pressed="false">Power BI</button>
+      <button data-f="Tableau" aria-pressed="false">Tableau</button>
+      <button data-f="SQL" aria-pressed="false">SQL</button>
       <button data-f="DAX" aria-pressed="false">DAX</button>
     </div>
     <div class="proj-grid" id="projGrid">
+
       <article class="proj" data-tools="SQL,ETL">
-        <span class="tag">Case File 01</span>
+        <span class="tag">Case file 01</span>
         <h3>SQL Modern Data Warehouse</h3>
-        <p>Built a modern SQL data warehouse on a Medallion architecture (Bronze, Silver, Gold), consolidating CRM and ERP sales data into a single source of truth. Automated ETL via SQL Server stored procedures and bulk insert, with a Gold-layer star schema of business-ready fact and dimension views.</p>
-        <div class="tools"><span>SQL</span><span>SQL Server</span><span>ETL</span><span>Star Schema</span></div>
-        <a class="open" href="https://github.com/Jaysproject" target="_blank" rel="noopener">Open ↗</a>
+        <p>A modern data warehouse built on SQL Server using a Medallion architecture (bronze, silver, gold), consolidating CRM and ERP sales data into a single source of truth. Automated ETL through stored procedures and bulk insert, with a gold-layer star schema of business-ready fact and dimension views.</p>
+        <div class="tools"><span>T-SQL</span><span>SQL Server</span><span>ETL</span><span>Star Schema</span></div>
+        <a class="open" href="https://github.com/Jaysproject/SQL--Data-Wrehouse-Project" target="_blank" rel="noopener">Open repository &#8599;</a>
       </article>
+
       <article class="proj" data-tools="Power BI,DAX">
-        <span class="tag">Case File 02</span>
-        <h3>People Analytics Dashboard</h3>
-        <p>A multi-page Power BI dashboard with 41 DAX measures tracking headcount, turnover, pay equity, engagement and talent acquisition across a 1,750+ employee workforce. Cleaned 10,000+ records over 10 tables in Power Query, resolving 12 data-quality issues — mixed date formats, duplicates and orphan keys.</p>
+        <span class="tag">Case file 02</span>
+        <h3>NovusEnergy People Analytics</h3>
+        <p>An advanced HR people-analytics dashboard in Power BI with 41 DAX measures spanning demographics, turnover, talent acquisition, pay equity, engagement and leave forecasting &mdash; across a 1,750+ employee workforce, with the full data-cleaning workflow documented.</p>
         <div class="tools"><span>Power BI</span><span>DAX</span><span>Power Query</span></div>
-        <a class="open" href="https://github.com/Jaysproject" target="_blank" rel="noopener">Open ↗</a>
+        <a class="open" href="https://github.com/Jaysproject/NovusEnergy-People-Analytics-Dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
       </article>
-      <article class="proj more">
-        <a href="https://github.com/Jaysproject" target="_blank" rel="noopener">More on<br>GitHub ↗</a>
+
+      <article class="proj" data-tools="Tableau">
+        <span class="tag">Case file 03</span>
+        <h3>Bank Marketing Analysis</h3>
+        <p>Bank marketing campaign analysis built in Tableau &mdash; exploring which customer segments and contact strategies actually convert, and where the campaign spend was being wasted.</p>
+        <div class="tools"><span>Tableau</span><span>Segmentation</span></div>
+        <a class="open" href="https://github.com/Jaysproject/Bank-Marketing_Tableau-Dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
       </article>
+
+      <article class="proj" data-tools="Tableau">
+        <span class="tag">Case file 04</span>
+        <h3>Sports Analytics Dashboard</h3>
+        <p>Player performance and match analysis in Tableau. Built in the sporting capital of Australia, which felt like the right place to do it.</p>
+        <div class="tools"><span>Tableau</span><span>Performance Analysis</span></div>
+        <a class="open" href="https://github.com/Jaysproject/sports-analytics-tableau-Dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
+      </article>
+
+      <article class="proj" data-tools="Power BI">
+        <span class="tag">Case file 05</span>
+        <h3>HR Workforce Dashboard</h3>
+        <p>A workforce reporting dashboard covering headcount and core HR metrics &mdash; the groundwork that led into the larger NovusEnergy people-analytics build.</p>
+        <div class="tools"><span>Power BI</span><span>HR Analytics</span></div>
+        <a class="open" href="https://github.com/Jaysproject/HR-workforce-Dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
+      </article>
+
+      <article class="proj" data-tools="Power BI">
+        <span class="tag">Case file 06</span>
+        <h3>COVID-19 Vulnerability Dashboard</h3>
+        <p>A public-health dashboard exploring population vulnerability to COVID-19 &mdash; combining demographic and health indicators to show where risk concentrated.</p>
+        <div class="tools"><span>Power BI</span><span>Public Health Data</span></div>
+        <a class="open" href="https://github.com/Jaysproject/Covid-19-Vulnerability-dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
+      </article>
+
+      <article class="proj" data-tools="Power BI">
+        <span class="tag">Case file 07</span>
+        <h3>Enterprise Cybersecurity Dashboard</h3>
+        <p>A security reporting dashboard tracking enterprise cyber threat and incident metrics, built to make risk legible to non-technical stakeholders.</p>
+        <div class="tools"><span>Power BI</span><span>Risk Reporting</span></div>
+        <a class="open" href="https://github.com/Jaysproject/EnterpriseCybersecurity-Dashboard" target="_blank" rel="noopener">Open repository &#8599;</a>
+      </article>
+
+    </div>
+    <p style="margin-top:22px"><a class="btn ghost" href="https://github.com/Jaysproject?tab=repositories" target="_blank" rel="noopener">See every repository &#8599;</a></p>
+    <div class="mel">
+      <div class="lbl">Docklands &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#128674;</span><b>The working waterfront</b><span>Container cranes on the skyline &mdash; the city's original data pipeline, moving things from where they are to where they're useful.</span></div>
+        <div class="mel-card"><span class="ico">&#127905;</span><b>The Melbourne Star</b><span>A big wheel that gives you the whole grid at once. Which is more or less what a good dashboard does.</span></div>
+        <div class="mel-card"><span class="ico">&#128642;</span><b>End of the free tram zone</b><span>Route 35 loops the CBD for nothing. Past Docklands, you tap on.</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE · COLLINS STREET -->
-<section id="exp">
+<!-- ========== STOP 05 · COLLINS STREET (EXPERIENCE) ========== -->
+<section class="stop" id="stop-5" data-blind="COLLINS ST" data-name="Collins Street" data-short="Experience">
   <div class="wrap">
-    <p class="district">Collins Street <em>the "Paris end" · trams · glass towers</em></p>
-    <div class="route-badge"><span class="disc">04</span> Route 04 · Experience</div>
+    <p class="district">Collins Street <em>the "Paris end" &middot; plane trees &middot; glass towers</em></p>
+    <div class="route-badge"><span class="disc">06</span> Stop 06 &middot; Experience</div>
     <h2 class="sec">Experience</h2>
     <div class="timeline">
-      <div class="tl-item"><span class="when">Feb 2026 – Apr 2026 · Melbourne</span><h3>Junior Data &amp; Payroll Analyst — Veiramal Consultancy</h3><p>Gathered, validated and maintained accurate HR data, ensuring integrity through cleansing and normalisation. Built and enhanced Power BI dashboards that turned HR data into actionable insights, analysing trends and anomalies to support decisions while working across internal teams and external agencies.</p></div>
-      <div class="tl-item"><span class="when">Sep 2024 – Jan 2025 · Indore, India</span><h3>Product Operations Coordinator — Quikit</h3><p>Ran daily stand-ups and sprint planning for a 15-member team. Wrote detailed use cases and workflow docs that cut rework by 25%, managed backlogs in Azure DevOps for a 25% efficiency gain, and ran end-to-end manual QA that improved defect detection by 30%.</p></div>
-      <div class="tl-item"><span class="when">Aug 2024 – Jan 2025 · Indore, India</span><h3>IT Project Coordinator — Moreyeahs</h3><p>Gathered client requirements and authored BRDs, FRDs, use cases, user flows, test cases, RCA and WBS — reducing scope changes by 25% and errors by 15%, and keeping developers and non-technical clients aligned to cut delays by 20%.</p></div>
-      <div class="tl-item"><span class="when">Mar 2025 – 2026 · Melbourne</span><h3>Master of International Business (Data Analytics Major) — La Trobe University</h3><p>Currently studying. Data Analytics major.</p></div>
-      <div class="tl-item"><span class="when">Sep 2020 – Jul 2023 · Indore, India</span><h3>Bachelor of Business Administration — Shri Vaishnav Vidhyapeeth Vishwavidyalaya</h3><p>Foundation in business, operations and management.</p></div>
+      <div class="tl-item"><span class="when">Feb 2026 &ndash; Apr 2026 &middot; Melbourne</span><h3>Junior Data &amp; Payroll Analyst &mdash; Veiramal Consultancy</h3><p>Gathered, validated and maintained accurate HR data, protecting integrity through cleansing and normalisation. Built and enhanced Power BI dashboards that turned HR data into actionable insight, analysing trends and anomalies to support decisions, and partnered with cross-functional teams and external agencies to deliver on time.</p></div>
+      <div class="tl-item"><span class="when">Sep 2024 &ndash; Jan 2025 &middot; Indore, India</span><h3>Product Operations Coordinator &mdash; Quikit</h3><p>Ran daily stand-ups and weekly scrums for a 15-member team and planned sprint cycles. Wrote use cases and workflow documents that cut rework by 25%, managed backlogs in Azure DevOps for a 25% efficiency gain, and ran end-to-end manual QA that improved defect detection by 30%.</p></div>
+      <div class="tl-item"><span class="when">Aug 2024 &ndash; Jan 2025 &middot; Indore, India</span><h3>IT Project Coordinator &mdash; Moreyeahs</h3><p>Gathered client requirements and authored BRDs, FRDs, use cases, user flows, test cases, RCA and WBS &mdash; reducing scope changes by 25% and errors by 15%, resolving conflicts early to cut delays by 20% and improve delivery timelines by 15%.</p></div>
+      <div class="tl-item"><span class="when">Mar 2025 &ndash; 2026 &middot; Melbourne</span><h3>Master of International Business, Data Analytics Major &mdash; La Trobe University</h3><p>Currently studying.</p></div>
+      <div class="tl-item"><span class="when">Sep 2020 &ndash; Jul 2023 &middot; Indore, India</span><h3>Bachelor of Business Administration &mdash; Shri Vaishnav Vidhyapeeth Vishwavidyalaya</h3><p>Foundation in business, operations and management.</p></div>
+    </div>
+    <div class="mel">
+      <div class="lbl">Collins Street &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#127794;</span><b>The "Paris end"</b><span>Plane trees, awnings and the city's most expensive real estate, all the way up to Spring Street.</span></div>
+        <div class="mel-card"><span class="ico">&#128647;</span><b>The hook turn</b><span>To turn right, pull left and wait. Confuses every visitor, keeps the trams moving. Local logic.</span></div>
+        <div class="mel-card"><span class="ico">&#127974;</span><b>Victorian gold-rush grandeur</b><span>Banking halls and arcades built when Melbourne was briefly the richest city in the world.</span></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ACHIEVEMENTS · MCG -->
-<section id="ach">
+<!-- ========== STOP 06 · THE 'G (AWARDS) ========== -->
+<section class="stop" id="stop-6" data-blind="THE 'G · MCG" data-name="The MCG" data-short="Awards">
   <div class="wrap">
-    <p class="district">The 'G · Yarra Park <em>floodlights · roar · grand final</em></p>
-    <div class="route-badge"><span class="disc">05</span> Route 05 · Mission Passed</div>
-    <h2 class="sec">Awards &amp; wins</h2>
-    <div class="ach-grid">
-      <div class="ach"><span class="medal">🏆</span><b>Built a Power BI People Analytics dashboard with 41 DAX measures for a 1,750+ employee workforce</b></div>
-      <div class="ach"><span class="medal">🥇</span><b>Designed a Medallion-architecture SQL data warehouse (Bronze / Silver / Gold) with automated ETL</b></div>
-      <div class="ach"><span class="medal">📜</span><b>Certified: Power BI &amp; Tableau for Data Visualisation</b></div>
-      <div class="ach"><span class="medal">📜</span><b>Professional Diploma in Agile &amp; Project Management</b></div>
-      <div class="ach"><span class="medal">⚡</span><b>Cut rework 25% and improved defect detection 30% at Quikit</b></div>
-      <div class="ach"><span class="medal">🎯</span><b>Reduced scope changes 25% and errors 15% at Moreyeahs</b></div>
+    <p class="district">The 'G &middot; Yarra Park <em>floodlights &middot; 100,000 people &middot; one roar</em></p>
+    <div class="route-badge"><span class="disc">07</span> Stop 07 &middot; Awards &amp; wins</div>
+    <h2 class="sec">On the<br>scoreboard</h2>
+    <p class="lead">Melbourne measures itself in seasons and finals. Here's my form guide.</p>
+    <div class="ach-grid" style="margin-top:24px">
+      <div class="ach"><span class="medal">&#127942;</span><b>Built a Power BI people-analytics dashboard with 41 DAX measures for a 1,750+ employee workforce</b></div>
+      <div class="ach"><span class="medal">&#129351;</span><b>Designed a Medallion-architecture SQL data warehouse with automated ETL and a gold-layer star schema</b></div>
+      <div class="ach"><span class="medal">&#128220;</span><b>Certified &mdash; Power BI and Tableau for Data Visualisation</b></div>
+      <div class="ach"><span class="medal">&#128220;</span><b>Professional Diploma in Agile and Project Management</b></div>
+      <div class="ach"><span class="medal">&#9889;</span><b>Cut rework 25% and improved defect detection 30% at Quikit</b></div>
+      <div class="ach"><span class="medal">&#127919;</span><b>Reduced scope changes 25% and errors 15% at Moreyeahs</b></div>
+    </div>
+    <div class="mel">
+      <div class="lbl">The sporting capital &mdash; the calendar this city runs on</div>
+      <div class="fixture">
+        <div class="fx"><b>AFL</b><span>Aussie Rules at the MCG. Close to a religion, and the reason the city empties on a Saturday.</span></div>
+        <div class="fx"><b>Australian Open</b><span>The year's first tennis major, every January at Melbourne Park.</span></div>
+        <div class="fx"><b>F1 Grand Prix</b><span>Formula 1 around Albert Park Lake, and the noise that comes with it.</span></div>
+        <div class="fx"><b>Melbourne Cup</b><span>The race that stops a nation &mdash; and a public holiday to prove it.</span></div>
+      </div>
+      <p style="margin-top:16px;color:var(--ink-dim);font-size:13.5px">Fitting, then, that one of my Tableau builds is a <a href="https://github.com/Jaysproject/sports-analytics-tableau-Dashboard" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline">sports analytics dashboard</a>.</p>
     </div>
   </div>
 </section>
 
-<!-- CONTACT · LANEWAYS -->
-<section id="contact">
+<!-- ========== STOP 07 · QUEEN VIC MARKET (CONTACT) ========== -->
+<section class="stop" id="stop-7" data-blind="QUEEN VIC MKT" data-name="Queen Victoria Market" data-short="Contact">
   <div class="wrap">
-    <p class="district">The Laneways · After Hours <em>rain · neon café · live music</em></p>
-    <div class="route-badge"><span class="disc">06</span> Final Stop · Contact</div>
-    <h2 class="sec">Last stop — let's talk</h2>
-    <div class="contact-grid">
+    <p class="district">Queen Victoria Market &middot; Lygon Street <em>the multicultural soul of the city</em></p>
+    <div class="route-badge"><span class="disc">08</span> Final stop &middot; Contact</div>
+    <h2 class="sec">End of the line &mdash;<br>let's talk</h2>
+    <div class="grid2" style="margin-top:22px">
       <div>
-        <p class="lead">Hiring for a Data Analyst, BI or Business Analyst role in Melbourne? Let's talk.</p>
+        <p class="lead">Hiring for a Data Analyst, BI or Business Analyst role in Melbourne? I'd love to hear about it. Coffee's on me &mdash; and I know a lane.</p>
         <div class="contact-links">
-          <button class="copybtn" id="copyEmail"><span class="ic">✉️</span>contact.jaydeshmukh@gmail.com<small style="margin-left:auto;color:var(--ink-dim)">copy</small></button>
-          <a href="tel:+61412669964"><span class="ic">📞</span>0412 669 964</a>
-          <a href="https://github.com/Jaysproject" target="_blank" rel="noopener"><span class="ic">💻</span>github.com/Jaysproject</a>
-          <a href="https://www.linkedin.com/" target="_blank" rel="noopener"><span class="ic">in</span>LinkedIn · add your profile URL</a>
+          <button class="copybtn" id="copyEmail"><span class="ic">&#9993;&#65039;</span>contact.jaydeshmukh@gmail.com<small style="margin-left:auto;color:var(--ink-dim)">copy</small></button>
+          <a href="tel:+61412669964"><span class="ic">&#128222;</span>0412 669 964</a>
+          <a href="https://www.linkedin.com/in/jaydeshmukh09/" target="_blank" rel="noopener"><span class="ic">in</span>linkedin.com/in/jaydeshmukh09</a>
+          <a href="https://github.com/Jaysproject" target="_blank" rel="noopener"><span class="ic">&#128187;</span>github.com/Jaysproject</a>
         </div>
       </div>
       <form class="msg" id="contactForm">
@@ -447,61 +718,220 @@ footer b{color:var(--accent)}
         <button class="btn" type="submit">Send via email</button>
       </form>
     </div>
+    <div class="mel">
+      <div class="lbl">Multicultural soul &amp; quirky livability &mdash; around this stop</div>
+      <div class="mel-grid">
+        <div class="mel-card"><span class="ico">&#127823;</span><b>Queen Victoria Market</b><span>Open-air since 1878. Produce, deli halls and the best sense of how many places this city is made of.</span></div>
+        <div class="mel-card"><span class="ico">&#127828;</span><b>Lygon Street</b><span>Carlton's Italian heart &mdash; and a fair argument for where Australian coffee culture began.</span></div>
+        <div class="mel-card"><span class="ico">&#127782;&#65039;</span><b>Four seasons in one day</b><span>Sunshine to wind to rain before lunch. Try the weather switcher in the corner &mdash; the whole site changes with it.</span></div>
+      </div>
+    </div>
   </div>
+  <footer>&copy; <span id="yr"></span> <b>Jay Deshmukh</b> &middot; Melbourne, Australia &middot; Built as a tram route &#128650;</footer>
 </section>
+
 </main>
 
-<footer>© <span id="yr"></span> <b>Jay Deshmukh</b> · Melbourne, Australia · Built with a tram-and-tracks UI 🚋</footer>
+<div class="stopnav">
+  <div class="inner">
+    <button id="prevBtn"><span>&larr;</span><span class="lbl-txt">Previous stop</span></button>
+    <div class="mid" id="stopLabel">Stop 01 &middot; Flinders Street</div>
+    <div class="weather" role="group" aria-label="Melbourne weather theme"><small>Weather</small><div class="row"><button data-w="morning" title="Crisp morning" aria-pressed="false">&#127749;</button><button data-w="sunny" title="Sunny" aria-pressed="true">&#9728;&#65039;</button><button data-w="overcast" title="Overcast" aria-pressed="false">&#9729;&#65039;</button><button data-w="rainy" title="Rainy night" aria-pressed="false">&#127783;&#65039;</button></div></div>
+    <button id="nextBtn" class="next"><span class="lbl-txt">Next stop</span><span>&rarr;</span></button>
+  </div>
+</div>
 
 <script>
 (function(){
   "use strict";
-  var root=document.documentElement;
-  var wbtns=document.querySelectorAll('.weather button');
-  wbtns.forEach(function(b){b.addEventListener('click',function(){
-    root.setAttribute('data-weather',b.dataset.w);
-    wbtns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
-    try{localStorage.setItem('mel-weather',b.dataset.w);}catch(e){}
-  });});
-  try{var s=localStorage.getItem('mel-weather');if(s){root.setAttribute('data-weather',s);
-    wbtns.forEach(function(x){x.setAttribute('aria-pressed',x.dataset.w===s?'true':'false');});}}catch(e){}
+  var root = document.documentElement;
+  var stops = Array.prototype.slice.call(document.querySelectorAll('.stop'));
+  var total = stops.length;
+  var current = 0;
+  var busy = false;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var burger=document.querySelector('.burger'),menu=document.getElementById('menu');
-  burger.addEventListener('click',function(){var o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o?'true':'false');});
-  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false');});});
+  var stage   = document.getElementById('tram-stage');
+  var destEl  = document.getElementById('tram-dest');
+  var routeEl = document.getElementById('tram-route');
+  var arrEl   = document.getElementById('arriving-name');
+  var menu    = document.getElementById('menu');
+  var progress= document.getElementById('progress');
+  var label   = document.getElementById('stopLabel');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var burger  = document.querySelector('.burger');
 
-  function tick(){try{document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Australia/Melbourne'});}catch(e){}}
-  tick();setInterval(tick,30000);
-  document.getElementById('yr').textContent=new Date().getFullYear();
+  function nameOf(i){
+    var d = stops[i].getAttribute('data-name') || '';
+    var t = document.createElement('textarea'); t.innerHTML = d; return t.value;
+  }
+  function shortOf(i){ return stops[i].getAttribute('data-short') || ('Stop ' + (i+1)); }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
 
-  var fills=document.querySelectorAll('.fill');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.style.width=e.target.dataset.w+'%';io.unobserve(e.target);}});},{threshold:.4});
-    fills.forEach(function(f){io.observe(f);});
-  }else{fills.forEach(function(f){f.style.width=f.dataset.w+'%';});}
+  /* ---------- build nav + progress rail ---------- */
+  stops.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = shortOf(i);
+    b.setAttribute('data-goto', i);
+    menu.appendChild(b);
 
-  var fbtns=document.querySelectorAll('.filters button'),cards=document.querySelectorAll('.proj');
-  fbtns.forEach(function(b){b.addEventListener('click',function(){
-    fbtns.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
-    var f=b.dataset.f;
-    cards.forEach(function(c){
-      if(c.classList.contains('more')){c.hidden=(f!=='all');return;}
-      c.hidden=!(f==='all'||(c.dataset.tools||'').split(',').indexOf(f)>-1);
+    if (i > 0){ var seg = document.createElement('div'); seg.className = 'seg'; progress.appendChild(seg); }
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'dot';
+    d.setAttribute('data-goto', i);
+    d.setAttribute('aria-label', 'Go to ' + nameOf(i));
+    var sp = document.createElement('span'); sp.textContent = shortOf(i);
+    d.appendChild(sp);
+    progress.appendChild(d);
+  });
+
+  /* ---------- the tram transition ---------- */
+  function runTram(target, cb){
+    var dest = (stops[target].getAttribute('data-blind') || nameOf(target)).toUpperCase();
+    destEl.textContent = dest;
+    routeEl.textContent = pad(target + 1);
+    arrEl.textContent = nameOf(target);
+
+    stage.classList.remove('running');
+    void stage.offsetWidth;            /* restart the CSS animations */
+    stage.classList.add('running');
+
+    /* swap the content while the tram is covering the screen */
+    setTimeout(cb, 1000);
+    /* clear the stage once the tram has left */
+    setTimeout(function(){ stage.classList.remove('running'); busy = false; }, 2200);
+  }
+
+  function apply(target){
+    stops[current].classList.remove('active');
+    stops[target].classList.add('active');
+    current = target;
+    window.scrollTo(0, 0);
+    sync();
+  }
+
+  function go(target){
+    target = Math.max(0, Math.min(total - 1, target));
+    if (busy || target === current) return;
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+
+    if (reduce){ apply(target); return; }
+    busy = true;
+    runTram(target, function(){ apply(target); });
+  }
+
+  function sync(){
+    label.innerHTML = 'Stop ' + pad(current + 1) + ' &middot; ' + nameOf(current);
+    prevBtn.disabled = (current === 0);
+    nextBtn.disabled = (current === total - 1);
+    Array.prototype.forEach.call(menu.children, function(b, i){
+      b.setAttribute('aria-current', i === current ? 'true' : 'false');
     });
-  });});
+    Array.prototype.forEach.call(progress.querySelectorAll('.dot'), function(d, i){
+      d.setAttribute('aria-current', i === current ? 'true' : 'false');
+    });
+    if (history.replaceState) history.replaceState(null, '', '#' + stops[current].id);
+  }
 
-  var ce=document.getElementById('copyEmail');
-  if(ce){ce.addEventListener('click',function(){
-    try{navigator.clipboard.writeText('contact.jaydeshmukh@gmail.com');var s=ce.querySelector('small');if(s){var o=s.textContent;s.textContent='copied!';setTimeout(function(){s.textContent=o;},1500);}}catch(e){}
-  });}
+  /* ---------- one delegated click handler for everything ---------- */
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-goto]');
+    if (t){ e.preventDefault(); go(parseInt(t.getAttribute('data-goto'), 10)); }
+  });
+  prevBtn.addEventListener('click', function(){ go(current - 1); });
+  nextBtn.addEventListener('click', function(){ go(current + 1); });
 
-  var cf=document.getElementById('contactForm');
-  if(cf){cf.addEventListener('submit',function(ev){ev.preventDefault();
-    var i=cf.querySelectorAll('input,textarea');
-    var subject=encodeURIComponent('Portfolio enquiry from '+(i[0].value||''));
-    var body=encodeURIComponent((i[2].value||'')+'\n\nFrom: '+(i[0].value||'')+' ('+(i[1].value||'')+')');
-    window.location.href='mailto:contact.jaydeshmukh@gmail.com?subject='+subject+'&body='+body;
-  });}
+  /* keyboard: arrows ride the route */
+  document.addEventListener('keydown', function(e){
+    if (e.target.matches('input, textarea')) return;
+    if (e.key === 'ArrowRight') go(current + 1);
+    if (e.key === 'ArrowLeft')  go(current - 1);
+  });
+
+  /* ---------- mobile menu ---------- */
+  burger.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  /* ---------- weather switcher ---------- */
+  var wbtns = document.querySelectorAll('.weather button');
+  Array.prototype.forEach.call(wbtns, function(b){
+    b.addEventListener('click', function(){
+      root.setAttribute('data-weather', b.getAttribute('data-w'));
+      Array.prototype.forEach.call(wbtns, function(x){
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+      try { localStorage.setItem('mel-weather', b.getAttribute('data-w')); } catch(err){}
+    });
+  });
+  try {
+    var saved = localStorage.getItem('mel-weather');
+    if (saved){
+      root.setAttribute('data-weather', saved);
+      Array.prototype.forEach.call(wbtns, function(x){
+        x.setAttribute('aria-pressed', x.getAttribute('data-w') === saved ? 'true' : 'false');
+      });
+    }
+  } catch(err){}
+
+  /* ---------- Melbourne clock ---------- */
+  function tick(){
+    try {
+      document.getElementById('clock').textContent =
+        new Date().toLocaleTimeString('en-AU', {hour:'2-digit', minute:'2-digit', hour12:false, timeZone:'Australia/Melbourne'});
+    } catch(err){}
+  }
+  tick(); setInterval(tick, 20000);
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ---------- project filter ---------- */
+  var fbtns = document.querySelectorAll('.filters button');
+  var cards = document.querySelectorAll('.proj');
+  Array.prototype.forEach.call(fbtns, function(b){
+    b.addEventListener('click', function(){
+      Array.prototype.forEach.call(fbtns, function(x){
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+      var f = b.getAttribute('data-f');
+      Array.prototype.forEach.call(cards, function(c){
+        var tools = (c.getAttribute('data-tools') || '').split(',');
+        c.hidden = !(f === 'all' || tools.indexOf(f) > -1);
+      });
+    });
+  });
+
+  /* ---------- copy email ---------- */
+  var ce = document.getElementById('copyEmail');
+  if (ce) ce.addEventListener('click', function(){
+    var small = ce.querySelector('small');
+    function flash(msg){ if(small){ var o = small.textContent; small.textContent = msg; setTimeout(function(){ small.textContent = o; }, 1500); } }
+    try {
+      navigator.clipboard.writeText('contact.jaydeshmukh@gmail.com').then(function(){ flash('copied!'); }, function(){ flash('copy failed'); });
+    } catch(err){ flash('copy failed'); }
+  });
+
+  /* ---------- contact form -> mail client ---------- */
+  var cf = document.getElementById('contactForm');
+  if (cf) cf.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var i = cf.querySelectorAll('input, textarea');
+    var subject = encodeURIComponent('Portfolio enquiry from ' + (i[0].value || ''));
+    var body = encodeURIComponent((i[2].value || '') + '\n\nFrom: ' + (i[0].value || '') + ' (' + (i[1].value || '') + ')');
+    window.location.href = 'mailto:contact.jaydeshmukh@gmail.com?subject=' + subject + '&body=' + body;
+  });
+
+  /* ---------- open on the stop named in the URL ---------- */
+  (function(){
+    var h = (location.hash || '').replace('#', '');
+    var idx = stops.map(function(s){ return s.id; }).indexOf(h);
+    if (idx > 0){ stops[0].classList.remove('active'); stops[idx].classList.add('active'); current = idx; }
+    sync();
+  })();
 })();
 </script>
 </body>
